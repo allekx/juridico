@@ -1,0 +1,9 @@
+export { HeroSection } from "./hero-section";
+export { DifferentialsSection } from "./differentials-section";
+export { PracticeAreasSection } from "./practice-areas-section";
+export { TeamSection } from "./team-section";
+export { TestimonialsSection } from "./testimonials-section";
+export { StatsSection } from "./stats-section";
+export { CtaSection } from "./cta-section";
+export { FaqSection } from "./faq-section";
+export { ContactSection } from "./contact-section";

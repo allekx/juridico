@@ -1,0 +1,306 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   DESIGN SYSTEM — Sistema Jurídico
+   Visual: Jurídico · Sofisticado · Moderno · Premium
+   ============================================================================= */
+
+@layer base {
+  :root {
+    /* --- Superfícies --- */
+    --background: 40 20% 98%;
+    --foreground: 220 28% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 28% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 28% 12%;
+
+    /* --- Marca: Navy (autoridade) --- */
+    --primary: 215 42% 22%;
+    --primary-foreground: 40 20% 98%;
+
+    /* --- Acento: Bronze suave (premium, sem exagero) --- */
+    --secondary: 38 28% 88%;
+    --secondary-foreground: 215 42% 22%;
+
+    --accent: 215 18% 94%;
+    --accent-foreground: 215 42% 22%;
+
+    /* --- Neutros --- */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    /* --- Semânticos (tons contidos) --- */
+    --destructive: 0 45% 42%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 32% 32%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 55% 42%;
+    --warning-foreground: 38 80% 12%;
+
+    --info: 215 35% 38%;
+    --info-foreground: 0 0% 100%;
+
+    /* --- Bordas e inputs --- */
+    --border: 220 14% 90%;
+    --input: 220 14% 90%;
+    --ring: 215 42% 22%;
+
+    /* --- Bronze accent (detalhes premium) --- */
+    --gold: 38 42% 48%;
+    --gold-foreground: 40 20% 98%;
+    --gold-muted: 38 30% 92%;
+
+    /* --- Raios --- */
+    --radius: 0.375rem;
+
+    /* --- Sombras --- */
+    --shadow-xs: 0 1px 2px 0 hsl(220 28% 12% / 0.04);
+    --shadow-sm: 0 1px 3px 0 hsl(220 28% 12% / 0.06),
+      0 1px 2px -1px hsl(220 28% 12% / 0.04);
+    --shadow-md: 0 4px 6px -1px hsl(220 28% 12% / 0.06),
+      0 2px 4px -2px hsl(220 28% 12% / 0.04);
+    --shadow-lg: 0 10px 15px -3px hsl(220 28% 12% / 0.07),
+      0 4px 6px -4px hsl(220 28% 12% / 0.04);
+    --shadow-premium: 0 20px 40px -12px hsl(215 42% 22% / 0.12);
+
+    /* --- Sidebar --- */
+    --sidebar: 215 38% 16%;
+    --sidebar-foreground: 220 14% 85%;
+    --sidebar-accent: 215 35% 22%;
+    --sidebar-border: 215 30% 24%;
+  }
+
+  .dark {
+    --background: 220 28% 8%;
+    --foreground: 40 15% 95%;
+
+    --card: 220 26% 11%;
+    --card-foreground: 40 15% 95%;
+
+    --popover: 220 26% 11%;
+    --popover-foreground: 40 15% 95%;
+
+    --primary: 40 15% 95%;
+    --primary-foreground: 215 42% 18%;
+
+    --secondary: 215 25% 18%;
+    --secondary-foreground: 40 15% 95%;
+
+    --accent: 215 22% 16%;
+    --accent-foreground: 40 15% 95%;
+
+    --muted: 220 20% 14%;
+    --muted-foreground: 220 10% 58%;
+
+    --destructive: 0 42% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 30% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 50% 50%;
+    --warning-foreground: 38 80% 10%;
+
+    --info: 215 40% 55%;
+    --info-foreground: 220 28% 8%;
+
+    --border: 220 18% 18%;
+    --input: 220 18% 18%;
+    --ring: 40 15% 80%;
+
+    --gold: 38 38% 55%;
+    --gold-foreground: 220 28% 8%;
+    --gold-muted: 38 20% 16%;
+
+    --sidebar: 220 28% 6%;
+    --sidebar-foreground: 220 14% 75%;
+    --sidebar-accent: 220 22% 12%;
+    --sidebar-border: 220 18% 14%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth scroll-pt-20 antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans text-base leading-relaxed;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-tight text-foreground;
+  }
+
+  h1 {
+    @apply text-4xl font-semibold leading-tight md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold leading-tight md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl font-medium leading-snug;
+  }
+
+  h4 {
+    @apply text-xl font-medium leading-snug;
+  }
+
+  h5 {
+    @apply text-lg font-medium;
+  }
+
+  h6 {
+    @apply text-base font-medium uppercase tracking-wider text-muted-foreground;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  ::selection {
+    @apply bg-primary/15 text-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* --- Container --- */
+  .ds-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .ds-container-narrow {
+    @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
+  }
+
+  /* --- Seções --- */
+  .ds-section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .ds-section-sm {
+    @apply py-8 md:py-12;
+  }
+
+  /* --- Divider premium --- */
+  .ds-divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-border to-transparent;
+  }
+
+  .ds-divider-gold {
+    @apply h-px w-16 bg-gold;
+  }
+
+  /* --- Superfícies --- */
+  .ds-surface {
+    @apply rounded-lg border border-border bg-card shadow-sm;
+  }
+
+  .ds-surface-elevated {
+    @apply rounded-lg border border-border bg-card shadow-md;
+  }
+
+  .ds-surface-premium {
+    @apply rounded-lg border border-border/60 bg-card shadow-premium;
+  }
+
+  /* --- Sidebar --- */
+  .ds-sidebar {
+    @apply bg-sidebar text-sidebar-foreground;
+  }
+
+  .ds-sidebar-item {
+    @apply flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-sidebar-foreground/70 transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-foreground;
+  }
+
+  .ds-sidebar-item-active {
+    @apply bg-sidebar-accent text-sidebar-foreground border-l-2 border-gold;
+  }
+
+  /* --- Status badges contextuais --- */
+  .ds-status-active {
+    @apply bg-success/10 text-success border-success/20;
+  }
+
+  .ds-status-pending {
+    @apply bg-warning/10 text-warning border-warning/20;
+  }
+
+  .ds-status-inactive {
+    @apply bg-muted text-muted-foreground border-border;
+  }
+
+  .ds-status-urgent {
+    @apply bg-destructive/10 text-destructive border-destructive/20;
+  }
+
+  /* --- Tabela zebra sutil --- */
+  .ds-table-row-hover {
+    @apply transition-colors hover:bg-muted/50;
+  }
+
+  /* --- Input group --- */
+  .ds-input-group {
+    @apply flex flex-col gap-1.5;
+  }
+
+  /* --- Page header --- */
+  .ds-page-header {
+    @apply mb-8 flex flex-col gap-1 border-b border-border pb-6;
+  }
+
+  .ds-page-title {
+    @apply font-display text-2xl font-semibold tracking-tight md:text-3xl;
+  }
+
+  .ds-page-description {
+    @apply text-sm text-muted-foreground md:text-base;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-legal {
+    @apply font-mono text-sm tracking-wide;
+  }
+
+  .shadow-premium {
+    box-shadow: var(--shadow-premium);
+  }
+
+  .shadow-xs {
+    box-shadow: var(--shadow-xs);
+  }
+
+  .transition-premium {
+    @apply transition-all duration-300 ease-out;
+  }
+}
