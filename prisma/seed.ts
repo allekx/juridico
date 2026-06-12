@@ -8,8 +8,69 @@ const prisma = new PrismaClient();
 const PORTAL_DEMO_PASSWORD =
   process.env.CLIENT_PORTAL_DEMO_PASSWORD ?? "Cliente@123";
 
+const ADMIN_EMAIL = "juridicoemail9@gmail.com";
+const ADMIN_USER_ID = "00000000-0000-4000-a000-000000000001";
+const ADMIN_SEED_PASSWORD =
+  process.env.ADMIN_SEED_PASSWORD ?? "Admin@123";
+
 function cpfToPortalEmail(cpfCnpj: string): string {
   return `${cpfCnpj.replace(/\D/g, "")}@portal.client`;
+}
+
+async function syncSupabaseAuthUser(options: {
+  userId: string;
+  email: string;
+  password: string;
+  officeId: string;
+  role: "ADMIN" | "LAWYER" | "ASSISTANT" | "CLIENT";
+  name: string;
+}): Promise<boolean> {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.SUPABASE_SERVICE_ROLE_KEY
+  ) {
+    return false;
+  }
+
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+
+  const metadata = {
+    app_metadata: { role: options.role, office_id: options.officeId },
+    user_metadata: { name: options.name },
+  };
+
+  const { error } = await supabase.auth.admin.createUser({
+    id: options.userId,
+    email: options.email,
+    password: options.password,
+    email_confirm: true,
+    ...metadata,
+  });
+
+  if (error && !error.message.toLowerCase().includes("already")) {
+    const { error: updateError } = await supabase.auth.admin.updateUserById(
+      options.userId,
+      {
+        email: options.email,
+        password: options.password,
+        email_confirm: true,
+        ...metadata,
+      }
+    );
+    if (updateError) {
+      console.warn(
+        `Auth: falha ao sincronizar ${options.email}:`,
+        updateError.message
+      );
+      return false;
+    }
+  }
+
+  return true;
 }
 
 async function seedPortalClientUser(
@@ -36,46 +97,16 @@ async function seedPortalClientUser(
     data: { userId },
   });
 
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
-    return { email, synced: false as const };
-  }
-
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
-
-  const { error } = await supabase.auth.admin.createUser({
-    id: userId,
+  const synced = await syncSupabaseAuthUser({
+    userId,
     email,
     password: PORTAL_DEMO_PASSWORD,
-    email_confirm: true,
-    app_metadata: { role: "CLIENT", office_id: officeId },
-    user_metadata: { name: client.name },
+    officeId,
+    role: "CLIENT",
+    name: client.name,
   });
 
-  if (error && !error.message.toLowerCase().includes("already")) {
-    const { error: updateError } = await supabase.auth.admin.updateUserById(
-      userId,
-      {
-        email,
-        password: PORTAL_DEMO_PASSWORD,
-        email_confirm: true,
-        app_metadata: { role: "CLIENT", office_id: officeId },
-        user_metadata: { name: client.name },
-      }
-    );
-    if (updateError) {
-      console.warn(`Portal: falha ao sincronizar ${email}:`, updateError.message);
-      return { email, synced: false as const };
-    }
-  }
-
-  return { email, synced: true as const };
+  return { email, synced };
 }
 
 async function main() {
@@ -93,20 +124,28 @@ async function main() {
   });
 
   const admin = await prisma.user.upsert({
-    where: {
-      officeId_email: {
-        officeId: office.id,
-        email: "admin@almeidaassociados.com.br",
-      },
-    },
-    update: {},
-    create: {
-      id: "00000000-0000-4000-a000-000000000001",
-      officeId: office.id,
-      email: "admin@almeidaassociados.com.br",
+    where: { id: ADMIN_USER_ID },
+    update: {
+      email: ADMIN_EMAIL,
       name: "Administrador",
       role: "ADMIN",
     },
+    create: {
+      id: ADMIN_USER_ID,
+      officeId: office.id,
+      email: ADMIN_EMAIL,
+      name: "Administrador",
+      role: "ADMIN",
+    },
+  });
+
+  const adminSupabaseSynced = await syncSupabaseAuthUser({
+    userId: ADMIN_USER_ID,
+    email: ADMIN_EMAIL,
+    password: ADMIN_SEED_PASSWORD,
+    officeId: office.id,
+    role: "ADMIN",
+    name: "Administrador",
   });
 
   const categories = await Promise.all(
@@ -1471,6 +1510,12 @@ Consulte um advogado trabalhista para análise personalizada da sua situação.`
     deletionRequests: 1,
     auditLogs: auditSeeds.length,
     payments: paymentsData.length,
+    admin: {
+      url: "/login",
+      email: ADMIN_EMAIL,
+      password: ADMIN_SEED_PASSWORD,
+      supabaseSynced: adminSupabaseSynced,
+    },
     portal: {
       url: "/portal/acesso",
       cpf: clients[0].cpfCnpj,
