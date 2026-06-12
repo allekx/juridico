@@ -22,12 +22,23 @@ export default async function DashboardLayout({
 }) {
   const user = await requireRole(DASHBOARD_ROLES);
 
-  await processDueReminders(user.officeId);
+  try {
+    await processDueReminders(user.officeId);
+  } catch (error) {
+    console.error("[dashboard] processDueReminders:", error);
+  }
 
-  const [notifications, unreadCount] = await Promise.all([
-    getUserNotifications(user.id, 15),
-    getUnreadNotificationCount(user.id),
-  ]);
+  let notifications: Awaited<ReturnType<typeof getUserNotifications>> = [];
+  let unreadCount = 0;
+
+  try {
+    [notifications, unreadCount] = await Promise.all([
+      getUserNotifications(user.id, 15),
+      getUnreadNotificationCount(user.id),
+    ]);
+  } catch (error) {
+    console.error("[dashboard] notifications:", error);
+  }
 
   return (
     <div className="flex min-h-screen bg-muted/20">

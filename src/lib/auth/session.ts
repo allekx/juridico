@@ -32,26 +32,31 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   const sessionUser = await getSessionUser();
   if (!sessionUser) return null;
 
-  const dbUser = await prisma.user.findFirst({
-    where: {
-      id: sessionUser.id,
-      deletedAt: null,
-      isActive: true,
-    },
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      role: true,
-      officeId: true,
-      avatarUrl: true,
-      isActive: true,
-    },
-  });
+  try {
+    const dbUser = await prisma.user.findFirst({
+      where: {
+        id: sessionUser.id,
+        deletedAt: null,
+        isActive: true,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        officeId: true,
+        avatarUrl: true,
+        isActive: true,
+      },
+    });
 
-  if (!dbUser) return null;
+    if (!dbUser) return null;
 
-  return dbUser;
+    return dbUser;
+  } catch (error) {
+    console.error("[auth] getCurrentUser:", error);
+    return null;
+  }
 }
 
 export async function requireAuth(): Promise<AuthUser> {

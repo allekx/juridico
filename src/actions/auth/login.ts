@@ -31,8 +31,10 @@ export async function loginAction(
   const { email, password } = parsed.data;
   const supabase = await createClient();
 
-  const { data: authData, error: authError } =
-    await supabase.auth.signInWithPassword({ email, password });
+  const { error: authError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (authError) {
     await logLoginFailed(email, "Credenciais inválidas", "dashboard");
@@ -42,40 +44,56 @@ export async function loginAction(
     };
   }
 
-  const dbUser = await prisma.user.findFirst({
-    where: {
-      email,
-      deletedAt: null,
-      isActive: true,
-    },
-  });
+  let dbUser;
+  try {
+    dbUser = await prisma.user.findFirst({
+      where: {
+        email,
+        deletedAt: null,
+        isActive: true,
+      },
+    });
+  } catch (error) {
+    console.error("[login] Prisma findFirst:", error);
+    await supabase.auth.signOut();
+    return {
+      success: false,
+      error:
+        "Banco de dados indisponível. Verifique DATABASE_URL na Vercel e execute npm run db:seed.",
+    };
+  }
 
   if (!dbUser) {
     await supabase.auth.signOut();
     await logLoginFailed(email, "Usuário não cadastrado", "dashboard");
     return {
       success: false,
-      error: "Usuário não cadastrado no sistema",
+      error: "Usuário não cadastrado no sistema. Execute npm run db:seed.",
     };
   }
 
   await syncUserRoleMetadata(dbUser.id, dbUser.role, dbUser.officeId);
+  await supabase.auth.refreshSession();
 
-  await prisma.user.update({
-    where: { id: dbUser.id },
-    data: { lastLogin: new Date() },
-  });
+  try {
+    await prisma.user.update({
+      where: { id: dbUser.id },
+      data: { lastLogin: new Date() },
+    });
 
-  await logLogin(
-    {
-      id: dbUser.id,
-      officeId: dbUser.officeId,
-      name: dbUser.name,
-      email: dbUser.email,
-      role: dbUser.role,
-    },
-    "dashboard"
-  );
+    await logLogin(
+      {
+        id: dbUser.id,
+        officeId: dbUser.officeId,
+        name: dbUser.name,
+        email: dbUser.email,
+        role: dbUser.role,
+      },
+      "dashboard"
+    );
+  } catch (error) {
+    console.error("[login] pós-auth:", error);
+  }
 
   const redirectTo = safeRedirectPath(
     (formData.get("redirect") as string) || DEFAULT_REDIRECT[dbUser.role],
