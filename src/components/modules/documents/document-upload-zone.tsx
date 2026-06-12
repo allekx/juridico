@@ -4,13 +4,7 @@ import { useState } from "react";
 import { Upload, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { DOCUMENT_TYPE_OPTIONS } from "@/constants/documents";
 import type { DocumentType } from "@prisma/client";
@@ -86,19 +80,14 @@ export function DocumentUploadZone({
             <Label className="text-xs">Tipo de documento</Label>
             <Select
               value={documentType}
-              onValueChange={(v) => setDocumentType(v as DocumentType)}
+              onChange={(e) => setDocumentType(e.target.value as DocumentType)}
               disabled={uploading}
             >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {DOCUMENT_TYPE_OPTIONS.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+              {DOCUMENT_TYPE_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </Select>
           </div>
 

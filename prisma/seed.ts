@@ -552,7 +552,7 @@ Consulte um advogado trabalhista para análise personalizada da sua situação.`
           caseType: c.caseType,
           title: c.title,
           priority: c.priority,
-          court: c.court ?? null,
+          court: "court" in c ? c.court : null,
           description: "Caso de exemplo para demonstração do Kanban.",
         },
       });
@@ -718,8 +718,8 @@ Consulte um advogado trabalhista para análise personalizada da sua situação.`
       create: {
         id: ev.id,
         officeId: office.id,
-        caseId: ev.caseId ?? null,
-        clientId: ev.clientId ?? null,
+        caseId: "caseId" in ev ? (ev.caseId ?? null) : null,
+        clientId: "clientId" in ev ? (ev.clientId ?? null) : null,
         lawyerId: ev.lawyerId,
         createdById: ev.lawyerId,
         title: ev.title,

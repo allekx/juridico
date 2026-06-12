@@ -3,7 +3,12 @@ import { getAllPracticeAreaSlugs } from "@/lib/practice-areas";
 import { prisma } from "@/lib/prisma/client";
 import { getPublicOfficeId } from "@/lib/blog/office";
 
-type SitemapEntry = MetadataRoute.Sitemap[number] & { path: string };
+type SitemapEntry = {
+  path: string;
+  lastModified?: Date;
+  changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
+  priority?: number;
+};
 
 const STATIC_ROUTES: Array<{
   path: string;
@@ -47,9 +52,11 @@ async function getBlogEntries(): Promise<SitemapEntry[]> {
           officeId,
           posts: {
             some: {
-              officeId,
-              status: "PUBLISHED",
-              publishedAt: { not: null },
+              post: {
+                officeId,
+                status: "PUBLISHED",
+                publishedAt: { not: null },
+              },
             },
           },
         },

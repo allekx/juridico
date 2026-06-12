@@ -1,4 +1,6 @@
 import { getPublicOfficeId } from "@/lib/blog/office";
+
+export const dynamic = "force-dynamic";
 import { getActiveLegalDocument } from "@/lib/lgpd/queries";
 import { LegalDocumentContent } from "@/components/modules/lgpd/legal-document-content";
 import { PageHeader } from "@/components/ui/typography";

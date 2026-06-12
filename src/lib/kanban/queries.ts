@@ -13,7 +13,7 @@ export async function ensureKanbanStatuses(officeId: string): Promise<void> {
           name: col.name,
           color: col.color,
           sortOrder: col.sortOrder,
-          isDefault: col.isDefault ?? false,
+          isDefault: "isDefault" in col ? col.isDefault : false,
           isFinal: col.isFinal,
           isActive: true,
         },
@@ -23,7 +23,7 @@ export async function ensureKanbanStatuses(officeId: string): Promise<void> {
           slug: col.slug,
           color: col.color,
           sortOrder: col.sortOrder,
-          isDefault: col.isDefault ?? false,
+          isDefault: "isDefault" in col ? col.isDefault : false,
           isFinal: col.isFinal,
         },
       })

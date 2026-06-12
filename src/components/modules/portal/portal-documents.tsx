@@ -11,13 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { DocumentPreviewDialog } from "@/components/modules/documents/document-preview-dialog";
 import {
@@ -96,19 +90,14 @@ export function PortalDocuments({ documents }: PortalDocumentsProps) {
         <Label className="text-xs">Tipo de documento</Label>
         <Select
           value={documentType}
-          onValueChange={(v) => setDocumentType(v as DocumentType)}
+          onChange={(e) => setDocumentType(e.target.value as DocumentType)}
           disabled={uploading}
         >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {DOCUMENT_TYPE_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
+          {DOCUMENT_TYPE_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
         </Select>
       </div>
 

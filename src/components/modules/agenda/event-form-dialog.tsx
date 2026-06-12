@@ -61,9 +61,9 @@ export function EventFormDialog({
     : createAgendaEventAction;
 
   const [state, formAction, isPending] = useActionState<
-    ActionResult<{ id: string }> | null,
+    ActionResult | null,
     FormData
-  >(action, null);
+  >(action as (prev: ActionResult | null, formData: FormData) => Promise<ActionResult | null>, null);
 
   useEffect(() => {
     if (state?.success) {

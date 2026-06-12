@@ -18,6 +18,12 @@ export interface ActionResult<T = void> {
   error?: string;
 }
 
+/** Compatível com useActionState quando actions retornam tipos diferentes de data */
+export type ServerFormAction = (
+  state: ActionResult | null,
+  payload: FormData
+) => Promise<ActionResult | null>;
+
 export interface SessionUser {
   id: string;
   email: string;

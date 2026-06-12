@@ -19,7 +19,7 @@ interface Column<T> {
   render?: (row: T) => React.ReactNode;
 }
 
-interface ReportViewProps<T extends Record<string, unknown>> {
+interface ReportViewProps<T extends object> {
   title: string;
   description: string;
   type: ReportType;
@@ -36,7 +36,7 @@ interface ReportViewProps<T extends Record<string, unknown>> {
   extra?: React.ReactNode;
 }
 
-export function ReportView<T extends Record<string, unknown>>({
+export function ReportView<T extends object>({
   title,
   description,
   type,
@@ -90,7 +90,11 @@ export function ReportView<T extends Record<string, unknown>>({
               </TableRow>
             ) : (
               rows.map((row, idx) => (
-                <TableRow key={(row.id as string) ?? idx}>
+                <TableRow
+                  key={
+                    "id" in row && row.id != null ? String(row.id) : String(idx)
+                  }
+                >
                   {columns.map((col) => (
                     <TableCell key={String(col.key)}>
                       {col.render

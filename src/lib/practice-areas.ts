@@ -11,7 +11,7 @@ export function getAllPracticeAreaSlugs(): string[] {
 export function getPracticeAreaBySlug(
   slug: string
 ): PracticeAreaDetail | undefined {
-  return PRACTICE_AREAS_DATA[slug];
+  return PRACTICE_AREAS_DATA[slug as keyof typeof PRACTICE_AREAS_DATA];
 }
 
 export function getAllPracticeAreas(): PracticeAreaDetail[] {
