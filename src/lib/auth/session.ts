@@ -73,8 +73,12 @@ export async function requireRole(allowedRoles: UserRole[]): Promise<AuthUser> {
 }
 
 export async function redirectIfAuthenticated() {
-  const sessionUser = await getSessionUser();
-  if (sessionUser) {
-    redirect(DEFAULT_REDIRECT[sessionUser.role]);
+  try {
+    const user = await getCurrentUser();
+    if (user) {
+      redirect(DEFAULT_REDIRECT[user.role]);
+    }
+  } catch {
+    // Banco indisponível — mantém na tela de login
   }
 }

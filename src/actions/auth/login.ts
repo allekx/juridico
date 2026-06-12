@@ -5,6 +5,7 @@ import { DEFAULT_REDIRECT } from "@/constants/roles";
 import { syncUserRoleMetadata } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma/client";
+import { safeRedirectPath } from "@/lib/auth/safe-redirect";
 import { logLogin, logLoginFailed } from "@/lib/audit/service";
 import { loginSchema } from "@/schemas/auth";
 import type { ActionResult } from "@/types/auth";
@@ -76,8 +77,10 @@ export async function loginAction(
     "dashboard"
   );
 
-  const redirectTo =
-    (formData.get("redirect") as string) || DEFAULT_REDIRECT[dbUser.role];
+  const redirectTo = safeRedirectPath(
+    (formData.get("redirect") as string) || DEFAULT_REDIRECT[dbUser.role],
+    DEFAULT_REDIRECT[dbUser.role]
+  );
 
   redirect(redirectTo);
 }

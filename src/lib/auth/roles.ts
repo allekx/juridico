@@ -14,9 +14,7 @@ export function isValidRole(role: string): role is UserRole {
 }
 
 export function extractRoleFromUser(user: User): UserRole | null {
-  const role =
-    (user.app_metadata?.role as string) ||
-    (user.user_metadata?.role as string);
+  const role = user.app_metadata?.role as string | undefined;
 
   if (role && isValidRole(role)) {
     return role;
