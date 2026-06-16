@@ -64,8 +64,9 @@ export const CASE_PRIORITY_VARIANT: Record<
 export const CRM_NAV_ITEMS = [
   { href: "/dashboard/crm", label: "Visão Geral", exact: true },
   { href: "/dashboard/crm/leads", label: "Leads" },
+  { href: "/dashboard/crm/kanban", label: "Funil de Leads" },
   { href: "/dashboard/crm/clientes", label: "Clientes" },
   { href: "/dashboard/crm/casos", label: "Casos" },
-  { href: "/dashboard/kanban", label: "Kanban" },
+  { href: "/dashboard/kanban", label: "Kanban Jurídico" },
   { href: "/dashboard/crm/historico", label: "Histórico" },
 ] as const;

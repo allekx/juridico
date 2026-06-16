@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import type { UserRole } from "@prisma/client";
 import { DEFAULT_REDIRECT } from "@/constants/roles";
@@ -33,7 +34,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   };
 }
 
-export async function getCurrentUser(): Promise<AuthUser | null> {
+export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
   const authUser = await getSession();
   if (!authUser?.id) return null;
 
@@ -63,7 +64,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     console.error("[auth] getCurrentUser:", error);
     return null;
   }
-}
+});
 
 export async function requireAuth(): Promise<AuthUser> {
   const user = await getCurrentUser();

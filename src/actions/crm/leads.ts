@@ -21,6 +21,44 @@ function revalidateCrm() {
   revalidatePath("/dashboard/crm/historico");
 }
 
+export async function sendLeadToKanbanAction(
+  leadId: string
+): Promise<ActionResult<{ status: string }>> {
+  const user = await withPermission("crm:write");
+
+  try {
+    const lead = await prisma.lead.findFirst({
+      where: { id: leadId, officeId: user.officeId, deletedAt: null },
+    });
+
+    if (!lead) return { success: false, error: "Lead não encontrado" };
+
+    const nextStatus = lead.status === "NEW" ? "CONTACTED" : lead.status;
+
+    if (nextStatus !== lead.status) {
+      await prisma.lead.update({
+        where: { id: lead.id },
+        data: { status: nextStatus },
+      });
+
+      await logUpdate(
+        user,
+        "lead",
+        lead.id,
+        `Lead enviado ao funil: ${lead.name}`,
+        { from: lead.status, to: nextStatus }
+      );
+    }
+
+    revalidateCrm();
+    revalidatePath(`/dashboard/crm/leads/${leadId}`);
+
+    return { success: true, data: { status: nextStatus } };
+  } catch {
+    return { success: false, error: "Erro ao enviar lead ao funil" };
+  }
+}
+
 export async function updateLeadStatusAction(
   leadId: string,
   status: string
@@ -74,6 +112,7 @@ export async function updateLeadStatusAction(
     }
 
     revalidateCrm();
+    revalidatePath(`/dashboard/crm/leads/${lead.id}`);
     return { success: true };
   } catch {
     return { success: false, error: "Erro ao atualizar lead" };

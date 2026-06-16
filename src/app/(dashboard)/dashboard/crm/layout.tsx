@@ -1,14 +1,11 @@
-import { withPermission } from "@/lib/auth/guards";
 import { CrmNav } from "@/components/modules/crm/crm-nav";
 import { GlobalSearch } from "@/components/modules/crm/global-search";
 
-export default async function CrmLayout({
+export default function CrmLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  await withPermission("crm:read");
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

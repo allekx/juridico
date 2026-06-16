@@ -114,7 +114,7 @@ export async function notifyNewLead(
     event: "NEW_LEAD",
     title: "Novo lead",
     body: `${lead.name} — ${sourceLabel}${lead.interestArea ? ` · ${lead.interestArea}` : ""}`,
-    link: "/dashboard/crm/leads",
+    link: `/dashboard/crm/leads/${lead.id}`,
     metadata: { leadId: lead.id, source: lead.source },
   });
 }

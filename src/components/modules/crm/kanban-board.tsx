@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTransition } from "react";
 import { GripVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -50,6 +51,7 @@ export function LeadsKanban({ columns, canWrite = true }: LeadsKanbanProps) {
               <KanbanCard
                 key={card.id}
                 id={card.id}
+                href={`/dashboard/crm/leads/${card.id}`}
                 draggable={canWrite}
                 disabled={isPending}
               >
@@ -202,11 +204,13 @@ function KanbanColumn({
 
 function KanbanCard({
   id,
+  href,
   children,
   draggable,
   disabled,
 }: {
   id: string;
+  href?: string;
   children: React.ReactNode;
   draggable?: boolean;
   disabled?: boolean;
@@ -225,7 +229,15 @@ function KanbanCard({
         {draggable && (
           <GripVertical className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground/50" />
         )}
-        <div className="min-w-0 flex-1">{children}</div>
+        <div className="min-w-0 flex-1">
+          {href ? (
+            <Link href={href} className="block hover:text-primary">
+              {children}
+            </Link>
+          ) : (
+            children
+          )}
+        </div>
       </CardContent>
     </Card>
   );

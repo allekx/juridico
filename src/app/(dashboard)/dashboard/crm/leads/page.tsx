@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { withPermission } from "@/lib/auth/guards";
 import { hasPermission } from "@/lib/auth/permissions";
 import { getCrmLeads, getCrmTeamMembers } from "@/lib/crm/queries";
@@ -87,7 +88,14 @@ export default async function CrmLeadsPage({
             ) : (
               leads.map((lead) => (
                 <TableRow key={lead.id}>
-                  <TableCell className="font-medium">{lead.name}</TableCell>
+                  <TableCell className="font-medium">
+                    <Link
+                      href={`/dashboard/crm/leads/${lead.id}`}
+                      className="hover:text-primary hover:underline"
+                    >
+                      {lead.name}
+                    </Link>
+                  </TableCell>
                   <TableCell>
                     <div className="text-sm">
                       {lead.email && <p>{lead.email}</p>}

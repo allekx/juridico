@@ -43,10 +43,37 @@ export interface CrmLeadRow {
   source: LeadSource;
   status: LeadStatus;
   interestArea: string | null;
+  notes: string | null;
   assignedToId: string | null;
   assignedToName: string | null;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface CrmLeadTriageDocument {
+  id: string;
+  fileName: string;
+  mimeType: string;
+  fileSize: number;
+  createdAt: Date;
+}
+
+export interface CrmLeadTriageDetail {
+  id: string;
+  practiceAreaSlug: string;
+  completedAt: Date | null;
+  cpfCnpj: string | null;
+  city: string | null;
+  state: string | null;
+  additionalNotes: string | null;
+  answers: { questionLabel: string; answer: string }[];
+  documents: CrmLeadTriageDocument[];
+  lawyerName: string | null;
+  lawyerOab: string | null;
+}
+
+export interface CrmLeadDetail extends CrmLeadRow {
+  triage: CrmLeadTriageDetail | null;
 }
 
 export interface CrmClientRow {

@@ -14,6 +14,7 @@ import type {
   CrmKanbanCaseCard,
   CrmKanbanLeadCard,
   CrmLeadRow,
+  CrmLeadDetail,
   CrmListFilters,
   CrmSearchResult,
   CrmTeamMember,
@@ -171,11 +172,78 @@ export async function getCrmLeads(
     source: lead.source,
     status: lead.status,
     interestArea: lead.interestArea,
+    notes: lead.notes,
     assignedToId: lead.assignedToId,
     assignedToName: lead.assignedTo?.name ?? null,
     createdAt: lead.createdAt,
     updatedAt: lead.updatedAt,
   }));
+}
+
+export async function getCrmLeadDetail(
+  officeId: string,
+  leadId: string
+): Promise<CrmLeadDetail | null> {
+  const lead = await prisma.lead.findFirst({
+    where: { id: leadId, officeId, deletedAt: null },
+    include: {
+      assignedTo: { select: { name: true } },
+      triageSession: {
+        include: {
+          answers: { orderBy: { createdAt: "asc" } },
+          documents: { orderBy: { createdAt: "asc" } },
+          lawyer: {
+            include: { user: { select: { name: true } } },
+          },
+        },
+      },
+    },
+  });
+
+  if (!lead) return null;
+
+  const triage = lead.triageSession;
+
+  return {
+    id: lead.id,
+    name: lead.name,
+    email: lead.email,
+    phone: lead.phone,
+    source: lead.source,
+    status: lead.status,
+    interestArea: lead.interestArea,
+    notes: lead.notes,
+    assignedToId: lead.assignedToId,
+    assignedToName: lead.assignedTo?.name ?? null,
+    createdAt: lead.createdAt,
+    updatedAt: lead.updatedAt,
+    triage: triage
+      ? {
+          id: triage.id,
+          practiceAreaSlug: triage.practiceAreaSlug,
+          completedAt: triage.completedAt,
+          cpfCnpj: triage.cpfCnpj,
+          city: triage.city,
+          state: triage.state,
+          additionalNotes: triage.additionalNotes,
+          answers: triage.answers.map((a) => ({
+            questionLabel: a.questionLabel,
+            answer: a.answer,
+          })),
+          documents: triage.documents.map((d) => ({
+            id: d.id,
+            fileName: d.fileName,
+            mimeType: d.mimeType,
+            fileSize: d.fileSize,
+            createdAt: d.createdAt,
+          })),
+          lawyerName: triage.lawyer?.user.name ?? null,
+          lawyerOab: triage.lawyer
+            ? `OAB/${triage.lawyer.oabState} ${triage.lawyer.oabNumber}`
+            : null,
+        }
+      : null,
+  };
 }
 
 export async function getCrmClients(
