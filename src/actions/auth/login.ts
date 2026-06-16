@@ -3,6 +3,7 @@
 import { DEFAULT_REDIRECT } from "@/constants/roles";
 import { syncUserRoleMetadata } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { prisma } from "@/lib/prisma/client";
 import { safeRedirectPath } from "@/lib/auth/safe-redirect";
 import { logLogin, logLoginFailed } from "@/lib/audit/service";
@@ -18,11 +19,62 @@ async function safeSignOut(supabase: SupabaseClient) {
   }
 }
 
+function mapAuthError(message: string): string {
+  const normalized = message.toLowerCase();
+
+  if (
+    normalized.includes("invalid login credentials") ||
+    normalized.includes("invalid credentials")
+  ) {
+    return "E-mail ou senha incorretos";
+  }
+
+  if (normalized.includes("email not confirmed")) {
+    return "E-mail ainda não confirmado. Verifique sua caixa de entrada.";
+  }
+
+  if (normalized.includes("invalid api key")) {
+    return "Chave do Supabase inválida na Vercel. Verifique NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.";
+  }
+
+  return `Falha na autenticação: ${message}`;
+}
+
+function mapUnexpectedError(error: unknown): string {
+  if (error instanceof Error) {
+    if (error.message.includes("NEXT_REDIRECT")) {
+      throw error;
+    }
+
+    const normalized = error.message.toLowerCase();
+
+    if (normalized.includes("invalid api key")) {
+      return "Chave do Supabase inválida na Vercel.";
+    }
+
+    if (normalized.includes("fetch failed") || normalized.includes("network")) {
+      return "Não foi possível conectar ao Supabase. Tente novamente.";
+    }
+
+    return `Erro ao entrar: ${error.message}`;
+  }
+
+  return "Erro ao entrar. Tente novamente em instantes.";
+}
+
 export async function loginAction(
   _prevState: ActionResult<{ redirectTo: string }> | null,
   formData: FormData
 ): Promise<ActionResult<{ redirectTo: string }>> {
   try {
+    if (!isSupabaseConfigured()) {
+      return {
+        success: false,
+        error:
+          "Supabase não configurado. Verifique NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY na Vercel.",
+      };
+    }
+
     const raw = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -38,18 +90,39 @@ export async function loginAction(
     }
 
     const { email, password } = parsed.data;
-    const supabase = await createClient();
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (authError) {
-      await logLoginFailed(email, "Credenciais inválidas", "dashboard");
+    let supabase: SupabaseClient;
+    try {
+      supabase = await createClient();
+    } catch (error) {
+      console.error("[login] createClient:", error);
       return {
         success: false,
-        error: "E-mail ou senha incorretos",
+        error: "Erro ao iniciar sessão. Recarregue a página e tente novamente.",
+      };
+    }
+
+    let authError: { message: string } | null = null;
+
+    try {
+      const result = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      authError = result?.error ?? null;
+    } catch (error) {
+      console.error("[login] signInWithPassword:", error);
+      return {
+        success: false,
+        error: mapUnexpectedError(error),
+      };
+    }
+
+    if (authError) {
+      void logLoginFailed(email, authError.message, "dashboard");
+      return {
+        success: false,
+        error: mapAuthError(authError.message),
       };
     }
 
@@ -74,10 +147,11 @@ export async function loginAction(
 
     if (!dbUser) {
       await safeSignOut(supabase);
-      await logLoginFailed(email, "Usuário não cadastrado", "dashboard");
+      void logLoginFailed(email, "Usuário não cadastrado", "dashboard");
       return {
         success: false,
-        error: "Usuário não cadastrado no sistema. Execute npm run db:seed.",
+        error:
+          "Usuário autenticado, mas não cadastrado no banco. Execute npm run db:push e npm run db:seed.",
       };
     }
 
@@ -95,7 +169,7 @@ export async function loginAction(
         data: { lastLogin: new Date() },
       });
 
-      await logLogin(
+      void logLogin(
         {
           id: dbUser.id,
           officeId: dbUser.officeId,
@@ -122,7 +196,7 @@ export async function loginAction(
     console.error("[login] Erro inesperado:", error);
     return {
       success: false,
-      error: "Erro ao entrar. Tente novamente em instantes.",
+      error: mapUnexpectedError(error),
     };
   }
 }

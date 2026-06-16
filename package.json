@@ -12,7 +12,8 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "db:seed:admin": "npx tsx prisma/seed-admin.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
