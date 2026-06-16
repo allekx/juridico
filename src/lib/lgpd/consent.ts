@@ -25,6 +25,12 @@ const CONSENT_TO_DOCUMENT: Partial<Record<ConsentType, LegalDocumentType>> = {
   TERMS_OF_USE: "TERMS_OF_USE",
 };
 
+function isUuid(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+    value
+  );
+}
+
 export async function recordConsent(input: RecordConsentInput) {
   const docType = CONSENT_TO_DOCUMENT[input.consentType];
   let legalDocumentId: string | null = null;
@@ -34,9 +40,11 @@ export async function recordConsent(input: RecordConsentInput) {
   if (docType) {
     try {
       const doc = await getActiveLegalDocument(input.officeId, docType);
-      legalDocumentId = doc.id;
-      documentVersion = doc.version;
-      documentHash = doc.contentHash;
+      if (isUuid(doc.id)) {
+        legalDocumentId = doc.id;
+        documentVersion = doc.version;
+        documentHash = doc.contentHash;
+      }
     } catch {
       // Documento ainda não publicado — registra consentimento sem vínculo
     }

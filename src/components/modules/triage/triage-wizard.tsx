@@ -99,7 +99,11 @@ export function TriageWizard({ lawyersByArea }: TriageWizardProps) {
         }
         setStep(4);
       } else if (step === 4 && triageId) {
-        await skipDocumentsStepAction(triageId);
+        const result = await skipDocumentsStepAction(triageId);
+        if (!result.success) {
+          setError(result.error ?? "Erro ao avançar");
+          return;
+        }
         setStep(5);
       } else if (step === 5 && triageId) {
         if (!lawyerId && lawyers.length > 0) {
@@ -144,6 +148,7 @@ export function TriageWizard({ lawyersByArea }: TriageWizardProps) {
           return;
         }
         router.push("/triagem/sucesso");
+        return;
       }
     } finally {
       setLoading(false);

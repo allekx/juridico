@@ -256,29 +256,37 @@ export async function completeTriageAction(
 
     const requestMeta = await getRequestMetadata();
 
-    await Promise.all([
-      notifyNewLead(officeId, {
-        id: lead.id,
-        name: lead.name,
-        source: lead.source,
-        interestArea: lead.interestArea,
-        assignedToId: lead.assignedToId,
-      }),
-      recordConsentBundle({
-        officeId,
-        subjectType: "LEAD",
-        subjectId: lead.id,
-        subjectEmail: lead.email,
-        subjectName: lead.name,
-        source: "triage",
-        includeMarketing: true,
-        marketingGranted: marketing,
-        request: requestMeta,
-      }),
-    ]);
+    try {
+      await Promise.all([
+        notifyNewLead(officeId, {
+          id: lead.id,
+          name: lead.name,
+          source: lead.source,
+          interestArea: lead.interestArea,
+          assignedToId: lead.assignedToId,
+        }),
+        recordConsentBundle({
+          officeId,
+          subjectType: "LEAD",
+          subjectId: lead.id,
+          subjectEmail: lead.email,
+          subjectName: lead.name,
+          source: "triage",
+          includeMarketing: true,
+          marketingGranted: marketing,
+          request: requestMeta,
+        }),
+      ]);
+    } catch (postCompleteError) {
+      console.error("[triage] pós-finalização:", postCompleteError);
+    }
 
-    revalidatePath("/dashboard/crm");
-    revalidatePath("/dashboard/admin/lgpd");
+    try {
+      revalidatePath("/dashboard/crm");
+      revalidatePath("/dashboard/admin/lgpd");
+    } catch (revalidateError) {
+      console.error("[triage] revalidatePath:", revalidateError);
+    }
 
     return { success: true, data: { leadId: lead.id } };
   } catch (error) {
