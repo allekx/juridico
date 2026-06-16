@@ -7,11 +7,16 @@ import { extractRoleFromUser } from "@/lib/auth/roles";
 import type { AuthUser, SessionUser } from "@/types/auth";
 
 export async function getSession() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  } catch (error) {
+    console.error("[auth] getSession:", error);
+    return null;
+  }
 }
 
 export async function getSessionUser(): Promise<SessionUser | null> {
@@ -29,15 +34,18 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 }
 
 export async function getCurrentUser(): Promise<AuthUser | null> {
-  const sessionUser = await getSessionUser();
-  if (!sessionUser) return null;
+  const authUser = await getSession();
+  if (!authUser?.id) return null;
 
   try {
     const dbUser = await prisma.user.findFirst({
       where: {
-        id: sessionUser.id,
         deletedAt: null,
         isActive: true,
+        OR: [
+          { id: authUser.id },
+          ...(authUser.email ? [{ email: authUser.email }] : []),
+        ],
       },
       select: {
         id: true,
@@ -49,8 +57,6 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
         isActive: true,
       },
     });
-
-    if (!dbUser) return null;
 
     return dbUser;
   } catch (error) {

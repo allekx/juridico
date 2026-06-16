@@ -45,10 +45,8 @@ export async function middleware(request: NextRequest) {
     }
 
     if (!role) {
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/login";
-      redirectUrl.searchParams.set("error", "perfil_invalido");
-      return NextResponse.redirect(redirectUrl);
+      // Sessão válida sem role no JWT — servidor valida pelo banco
+      return supabaseResponse;
     }
 
     if (!canAccessRoute(pathname, role)) {

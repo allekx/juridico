@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { loginAction } from "@/actions/auth/login";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,17 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ redirectTo }: LoginFormProps) {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState<
     ActionResult<{ redirectTo: string }> | null,
     FormData
   >(loginAction, null);
+
+  useEffect(() => {
+    if (state?.success && state.data?.redirectTo) {
+      router.replace(state.data.redirectTo);
+    }
+  }, [state, router]);
 
   return (
     <Card variant="premium" className="w-full">
