@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { withPermission } from "@/lib/auth/guards";
 import { hasPermission } from "@/lib/auth/permissions";
 import { getLegalKanbanBoard } from "@/lib/kanban/queries";
+import { getCrmTeamMembers } from "@/lib/crm/queries";
 import { PageHeader } from "@/components/ui/typography";
+import { CreateCaseDialog } from "@/components/modules/crm/create-case-dialog";
 import { LegalKanbanBoard } from "@/components/modules/kanban/legal-kanban-board";
 import { KANBAN_COLUMNS } from "@/constants/kanban";
 
@@ -15,6 +17,9 @@ export default async function LegalKanbanPage() {
   const canWrite = hasPermission(user.role, "crm:write");
 
   const board = await getLegalKanbanBoard(user.officeId);
+  const teamMembers = canWrite
+    ? await getCrmTeamMembers(user.officeId)
+    : [];
 
   return (
     <div className="space-y-6">
@@ -22,10 +27,12 @@ export default async function LegalKanbanPage() {
         title="Kanban Jurídico"
         description={
           canWrite
-            ? "Arraste os cards entre as colunas para atualizar o status automaticamente."
+            ? "Fluxo dos processos jurídicos. Ao criar um caso, o cliente é cadastrado automaticamente."
             : "Visualização do fluxo de trabalho dos processos."
         }
-      />
+      >
+        {canWrite && <CreateCaseDialog teamMembers={teamMembers} />}
+      </PageHeader>
 
       <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
         {KANBAN_COLUMNS.map((col) => (

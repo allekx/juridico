@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LeadStatusSelect } from "@/components/modules/crm/lead-status-select";
 import { TriageReportCard } from "@/components/modules/crm/triage-report-card";
 import { SendLeadToKanbanButton } from "@/components/modules/crm/send-lead-to-kanban-button";
-import { SendLeadToLegalKanbanButton } from "@/components/modules/crm/send-lead-to-legal-kanban-button";
+import { CreateCaseFromLeadButton } from "@/components/modules/crm/create-case-from-lead-button";
 import { LEAD_SOURCE_LABELS } from "@/constants/crm";
 
 export const metadata: Metadata = {
@@ -98,15 +98,21 @@ export default async function LeadDetailPage({
                   </p>
                   <SendLeadToKanbanButton leadId={lead.id} />
                 </div>
-                <div>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    Kanban Jurídico
-                  </p>
-                  <SendLeadToLegalKanbanButton
-                    leadId={lead.id}
-                    legalCaseId={lead.legalCaseId}
-                  />
-                </div>
+                {lead.source === "TRIAGE" && (
+                  <div>
+                    <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Processo jurídico
+                    </p>
+                    <p className="mb-2 text-xs text-muted-foreground">
+                      Cria o cliente e o caso no Kanban Jurídico quando o lead
+                      for qualificado.
+                    </p>
+                    <CreateCaseFromLeadButton
+                      leadId={lead.id}
+                      legalCaseId={lead.legalCaseId}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </CardContent>

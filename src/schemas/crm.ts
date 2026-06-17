@@ -38,6 +38,18 @@ export const createLeadSchema = z.object({
   assignedToId: z.string().uuid().optional(),
 });
 
+export const createCaseSchema = z.object({
+  clientName: z.string().min(2, "Nome do cliente obrigatório"),
+  email: z.string().email("E-mail inválido").optional().or(z.literal("")),
+  phone: z.string().optional(),
+  cpfCnpj: z.string().optional(),
+  title: z.string().min(2, "Título do caso obrigatório"),
+  caseType: z.string().min(2, "Tipo do caso obrigatório"),
+  description: z.string().optional(),
+  lawyerId: z.string().uuid("Advogado obrigatório"),
+  priority: z.enum(["LOW", "MEDIUM", "HIGH", "URGENT"]).default("MEDIUM"),
+});
+
 export const globalSearchSchema = z.object({
   q: z.string().min(2).max(100),
 });

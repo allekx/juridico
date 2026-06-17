@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma/client";
 import { withPermission } from "@/lib/auth/guards";
-import { updateCaseStatusSchema } from "@/schemas/crm";
+import { createCaseSchema, updateCaseStatusSchema } from "@/schemas/crm";
+import { createLegalCase } from "@/lib/kanban/create-case";
+import { logCreate } from "@/lib/audit/service";
 import { notifyStatusChanged } from "@/lib/notifications/service";
 import type { ActionResult } from "@/types/auth";
 
@@ -17,6 +19,66 @@ function revalidateCrm() {
   revalidatePath("/portal");
   revalidatePath("/portal/processos");
   revalidatePath("/portal/timeline");
+}
+
+export async function createCaseAction(data: {
+  clientName: string;
+  email?: string;
+  phone?: string;
+  cpfCnpj?: string;
+  title: string;
+  caseType: string;
+  description?: string;
+  lawyerId: string;
+  priority?: string;
+}): Promise<ActionResult<{ caseId: string; clientId: string }>> {
+  const user = await withPermission("crm:write");
+  const parsed = createCaseSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.errors[0]?.message };
+  }
+
+  try {
+    const result = await createLegalCase({
+      officeId: user.officeId,
+      clientName: parsed.data.clientName,
+      email: parsed.data.email || null,
+      phone: parsed.data.phone || null,
+      cpfCnpj: parsed.data.cpfCnpj || null,
+      title: parsed.data.title,
+      caseType: parsed.data.caseType,
+      description: parsed.data.description || null,
+      lawyerUserId: parsed.data.lawyerId,
+      priority: parsed.data.priority,
+    });
+
+    if (result.clientCreated) {
+      await logCreate(
+        user,
+        "client",
+        result.clientId,
+        `Cliente criado ao abrir caso: ${parsed.data.clientName}`,
+        { caseId: result.caseId }
+      );
+    }
+
+    await logCreate(
+      user,
+      "case",
+      result.caseId,
+      `Caso criado: ${parsed.data.title}`,
+      { clientId: result.clientId }
+    );
+
+    revalidateCrm();
+    return {
+      success: true,
+      data: { caseId: result.caseId, clientId: result.clientId },
+    };
+  } catch {
+    return { success: false, error: "Erro ao criar caso" };
+  }
 }
 
 export async function updateCaseStatusAction(

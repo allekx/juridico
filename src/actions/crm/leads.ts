@@ -14,7 +14,7 @@ import {
 } from "@/lib/notifications/service";
 import {
   createLegalCaseFromTriage,
-} from "@/lib/kanban/create-case-from-triage";
+} from "@/lib/kanban/create-case";
 import type { ActionResult } from "@/types/auth";
 
 function revalidateCrm() {

@@ -20,7 +20,7 @@ import type {
   CrmTeamMember,
 } from "@/types/crm";
 import { LEAD_KANBAN_STATUSES } from "@/constants/crm";
-import { findLegalCaseForLead } from "@/lib/kanban/create-case-from-triage";
+import { findLegalCaseForLead } from "@/lib/kanban/create-case";
 
 function dateRange(
   dateFrom?: string,

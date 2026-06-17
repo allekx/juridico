@@ -20,6 +20,7 @@ import {
 import { Legal } from "@/components/ui/typography";
 import { AdvancedFilters } from "@/components/modules/crm/advanced-filters";
 import { CaseStatusSelect } from "@/components/modules/crm/case-status-select";
+import { CreateCaseDialog } from "@/components/modules/crm/create-case-dialog";
 import { CASE_PRIORITY_LABELS, CASE_PRIORITY_VARIANT } from "@/constants/crm";
 
 export const metadata: Metadata = {
@@ -55,7 +56,11 @@ export default async function CrmCasosPage({
       <PageHeader
         title="Casos"
         description={`${cases.length} caso${cases.length !== 1 ? "s" : ""} encontrado${cases.length !== 1 ? "s" : ""}`}
-      />
+      >
+        {canWrite && (
+          <CreateCaseDialog teamMembers={teamMembers} redirectToKanban={false} />
+        )}
+      </PageHeader>
 
       <AdvancedFilters
         filters={filters}

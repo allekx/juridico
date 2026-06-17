@@ -3,19 +3,19 @@
 import { useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Kanban, Loader2 } from "lucide-react";
+import { Briefcase, Loader2 } from "lucide-react";
 import { sendLeadToLegalKanbanAction } from "@/actions/crm/leads";
 import { Button } from "@/components/ui/button";
 
-interface SendLeadToLegalKanbanButtonProps {
+interface CreateCaseFromLeadButtonProps {
   leadId: string;
   legalCaseId?: string | null;
 }
 
-export function SendLeadToLegalKanbanButton({
+export function CreateCaseFromLeadButton({
   leadId,
   legalCaseId,
-}: SendLeadToLegalKanbanButtonProps) {
+}: CreateCaseFromLeadButtonProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -23,8 +23,8 @@ export function SendLeadToLegalKanbanButton({
     return (
       <Button type="button" variant="default" asChild>
         <Link href="/dashboard/kanban">
-          <Kanban className="h-4 w-4" />
-          Ver no Kanban Jurídico
+          <Briefcase className="h-4 w-4" />
+          Ver caso no Kanban
         </Link>
       </Button>
     );
@@ -49,9 +49,9 @@ export function SendLeadToLegalKanbanButton({
       {isPending ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        <Kanban className="h-4 w-4" />
+        <Briefcase className="h-4 w-4" />
       )}
-      Enviar ao Kanban Jurídico
+      Criar caso no Kanban
     </Button>
   );
 }
