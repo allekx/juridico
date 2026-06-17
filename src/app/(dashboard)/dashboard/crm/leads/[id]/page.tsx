@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LeadStatusSelect } from "@/components/modules/crm/lead-status-select";
 import { TriageReportCard } from "@/components/modules/crm/triage-report-card";
 import { SendLeadToKanbanButton } from "@/components/modules/crm/send-lead-to-kanban-button";
+import { SendLeadToLegalKanbanButton } from "@/components/modules/crm/send-lead-to-legal-kanban-button";
 import { LEAD_SOURCE_LABELS } from "@/constants/crm";
 
 export const metadata: Metadata = {
@@ -89,7 +90,25 @@ export default async function LeadDetailPage({
               <p className="text-muted-foreground">Responsável</p>
               <p>{lead.assignedToName ?? "—"}</p>
             </div>
-            {canWrite && <SendLeadToKanbanButton leadId={lead.id} />}
+            {canWrite && (
+              <div className="space-y-3 border-t border-border/60 pt-3">
+                <div>
+                  <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Funil comercial
+                  </p>
+                  <SendLeadToKanbanButton leadId={lead.id} />
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Kanban Jurídico
+                  </p>
+                  <SendLeadToLegalKanbanButton
+                    leadId={lead.id}
+                    legalCaseId={lead.legalCaseId}
+                  />
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 

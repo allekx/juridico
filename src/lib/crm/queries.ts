@@ -20,6 +20,7 @@ import type {
   CrmTeamMember,
 } from "@/types/crm";
 import { LEAD_KANBAN_STATUSES } from "@/constants/crm";
+import { findLegalCaseForLead } from "@/lib/kanban/create-case-from-triage";
 
 function dateRange(
   dateFrom?: string,
@@ -203,6 +204,7 @@ export async function getCrmLeadDetail(
   if (!lead) return null;
 
   const triage = lead.triageSession;
+  const legalCase = await findLegalCaseForLead(officeId, leadId);
 
   return {
     id: lead.id,
@@ -217,6 +219,8 @@ export async function getCrmLeadDetail(
     assignedToName: lead.assignedTo?.name ?? null,
     createdAt: lead.createdAt,
     updatedAt: lead.updatedAt,
+    legalCaseId: legalCase?.id ?? null,
+    legalCaseTitle: legalCase?.title ?? null,
     triage: triage
       ? {
           id: triage.id,

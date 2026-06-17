@@ -73,6 +73,8 @@ export interface CrmLeadTriageDetail {
 }
 
 export interface CrmLeadDetail extends CrmLeadRow {
+  legalCaseId: string | null;
+  legalCaseTitle: string | null;
   triage: CrmLeadTriageDetail | null;
 }
 

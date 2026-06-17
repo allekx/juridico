@@ -12,6 +12,7 @@ import {
 } from "@/schemas/triage";
 import type { PracticeAreaSlug } from "@/constants/practice-areas";
 import { notifyNewLead } from "@/lib/notifications/service";
+import { createLegalCaseFromTriage } from "@/lib/kanban/create-case-from-triage";
 import { recordConsentBundle } from "@/lib/lgpd/consent";
 import { getRequestMetadata } from "@/lib/lgpd/request-meta";
 import type { ActionResult } from "@/types/auth";
@@ -265,6 +266,20 @@ export async function completeTriageAction(
           interestArea: lead.interestArea,
           assignedToId: lead.assignedToId,
         }),
+        createLegalCaseFromTriage({
+          officeId,
+          leadId: lead.id,
+          name: session.name!,
+          email: session.email,
+          phone: session.phone,
+          cpfCnpj: session.cpfCnpj,
+          city: session.city,
+          state: session.state,
+          areaTitle,
+          summary: notes,
+          lawyerUserId: session.lawyer?.userId ?? null,
+          lawyerRecordId: session.lawyerId,
+        }),
         recordConsentBundle({
           officeId,
           subjectType: "LEAD",
@@ -283,6 +298,7 @@ export async function completeTriageAction(
 
     try {
       revalidatePath("/dashboard/crm");
+      revalidatePath("/dashboard/kanban");
       revalidatePath("/dashboard/admin/lgpd");
     } catch (revalidateError) {
       console.error("[triage] revalidatePath:", revalidateError);

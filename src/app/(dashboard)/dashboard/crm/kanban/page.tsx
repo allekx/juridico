@@ -22,7 +22,7 @@ export default async function CrmKanbanPage() {
     <div className="space-y-6">
       <PageHeader
         title="Kanban de Leads"
-        description="Funil comercial de leads. Para o fluxo de processos, use o Kanban Jurídico."
+        description="Funil comercial de prospecção (Novo → Contatado → Qualificado…). Os processos jurídicos ficam no Kanban Jurídico."
       />
 
       <Card variant="elevated">

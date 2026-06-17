@@ -12,6 +12,9 @@ import {
   notifyLeadConverted,
   notifyNewLead,
 } from "@/lib/notifications/service";
+import {
+  createLegalCaseFromTriage,
+} from "@/lib/kanban/create-case-from-triage";
 import type { ActionResult } from "@/types/auth";
 
 function revalidateCrm() {
@@ -19,6 +22,60 @@ function revalidateCrm() {
   revalidatePath("/dashboard/crm/leads");
   revalidatePath("/dashboard/crm/kanban");
   revalidatePath("/dashboard/crm/historico");
+}
+
+export async function sendLeadToLegalKanbanAction(
+  leadId: string
+): Promise<ActionResult<{ caseId: string; created: boolean }>> {
+  const user = await withPermission("crm:write");
+
+  try {
+    const lead = await prisma.lead.findFirst({
+      where: { id: leadId, officeId: user.officeId, deletedAt: null },
+      include: {
+        triageSession: {
+          include: {
+            lawyer: true,
+          },
+        },
+      },
+    });
+
+    if (!lead) return { success: false, error: "Lead não encontrado" };
+
+    const result = await createLegalCaseFromTriage({
+      officeId: user.officeId,
+      leadId: lead.id,
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone,
+      cpfCnpj: lead.triageSession?.cpfCnpj ?? null,
+      city: lead.triageSession?.city ?? null,
+      state: lead.triageSession?.state ?? null,
+      areaTitle: lead.interestArea ?? "Triagem",
+      summary: lead.notes,
+      lawyerUserId: lead.assignedToId,
+      lawyerRecordId: lead.triageSession?.lawyerId ?? null,
+    });
+
+    if (result.created) {
+      await logCreate(
+        user,
+        "case",
+        result.caseId,
+        `Caso criado no Kanban Jurídico a partir do lead: ${lead.name}`,
+        { leadId: lead.id }
+      );
+    }
+
+    revalidateCrm();
+    revalidatePath(`/dashboard/crm/leads/${leadId}`);
+    revalidatePath("/dashboard/kanban");
+
+    return { success: true, data: result };
+  } catch {
+    return { success: false, error: "Erro ao enviar lead ao Kanban Jurídico" };
+  }
 }
 
 export async function sendLeadToKanbanAction(

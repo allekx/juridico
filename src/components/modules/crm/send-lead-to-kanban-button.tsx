@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Kanban, Loader2 } from "lucide-react";
+import { GitBranch, Loader2 } from "lucide-react";
 import { sendLeadToKanbanAction } from "@/actions/crm/leads";
 import { Button } from "@/components/ui/button";
 
@@ -28,16 +28,16 @@ export function SendLeadToKanbanButton({ leadId }: SendLeadToKanbanButtonProps) 
     <div className="flex flex-wrap gap-2">
       <Button
         type="button"
-        variant="default"
+        variant="outline"
         onClick={handleClick}
         disabled={isPending}
       >
         {isPending ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
-          <Kanban className="h-4 w-4" />
+          <GitBranch className="h-4 w-4" />
         )}
-        Enviar para o funil
+        Mover no funil comercial
       </Button>
       <Button type="button" variant="outline" asChild>
         <Link href="/dashboard/crm/kanban">Abrir funil de leads</Link>
