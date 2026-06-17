@@ -18,7 +18,7 @@ export async function requirePortalClient(): Promise<PortalContext> {
   });
 
   if (!client) {
-    redirect("/portal/acesso?error=sem_cadastro");
+    redirect("/consulta");
   }
 
   return { user, client };

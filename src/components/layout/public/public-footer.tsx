@@ -37,10 +37,10 @@ export function PublicFooter() {
               ))}
               <li>
                 <Link
-                  href="/portal/acesso"
+                  href="/consulta"
                   className="text-sm text-primary-foreground/70 transition-colors hover:text-primary-foreground"
                 >
-                  Área do Cliente
+                  Consulta de andamento
                 </Link>
               </li>
             </ul>

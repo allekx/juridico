@@ -11,6 +11,14 @@ import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname === "/portal/acesso" || pathname.startsWith("/portal/")) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/consulta";
+    redirectUrl.search = "";
+    return NextResponse.redirect(redirectUrl);
+  }
+
   const { supabaseResponse, user } = await updateSession(request);
 
   const isAuthenticated = !!user;
@@ -36,7 +44,7 @@ export async function middleware(request: NextRequest) {
     if (!isAuthenticated) {
       const redirectUrl = request.nextUrl.clone();
       redirectUrl.pathname = pathname.startsWith("/portal")
-        ? "/portal/acesso"
+        ? "/consulta"
         : "/login";
       if (!pathname.startsWith("/portal")) {
         redirectUrl.searchParams.set("redirect", pathname);

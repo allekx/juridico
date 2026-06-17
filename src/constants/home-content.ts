@@ -54,7 +54,7 @@ export const DIFFERENTIALS: Differential[] = [
     icon: Clock,
     title: "Agilidade Estratégica",
     description:
-      "Prazos monitorados em tempo real. Você acompanha cada etapa pelo nosso portal exclusivo.",
+      "Prazos monitorados em tempo real. Consulte o andamento do seu caso pelo site, sem necessidade de login.",
   },
   {
     icon: Handshake,
@@ -156,7 +156,7 @@ export const FAQ_ITEMS = [
   {
     question: "Como funciona o acompanhamento do meu processo?",
     answer:
-      "Todos os clientes têm acesso ao Portal do Cliente, onde podem visualizar andamentos, documentos, prazos e se comunicar diretamente com o advogado responsável.",
+      "Utilize a Consulta de andamento no site com seu CPF ou CNPJ e o número do processo informado pelo escritório. A consulta é pública e não exige login.",
   },
   {
     question: "Quais formas de pagamento são aceitas?",

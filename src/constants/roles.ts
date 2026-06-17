@@ -28,5 +28,5 @@ export const DEFAULT_REDIRECT: Record<UserRole, string> = {
   LAWYER: "/dashboard",
   ASSISTANT: "/dashboard",
   FINANCIAL: "/dashboard/financeiro",
-  CLIENT: "/portal",
+  CLIENT: "/consulta",
 };

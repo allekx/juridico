@@ -45,7 +45,7 @@ export function PublicHeader() {
             <Link href="/triagem">Triagem Gratuita</Link>
           </Button>
           <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
-            <Link href="/portal/acesso">Área do Cliente</Link>
+            <Link href="/consulta">Consultar andamento</Link>
           </Button>
           <Button asChild variant="ghost" size="sm" className="hidden md:inline-flex">
             <Link href="/login">Entrar</Link>
@@ -90,8 +90,8 @@ export function PublicHeader() {
               </Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/portal/acesso" onClick={() => setMobileOpen(false)}>
-                Área do Cliente
+              <Link href="/consulta" onClick={() => setMobileOpen(false)}>
+                Consultar andamento
               </Link>
             </Button>
             <Button asChild variant="ghost">

@@ -18,13 +18,13 @@ export const PUBLIC_ROUTES = [
   "/privacidade",
   "/termos",
   "/lgpd/exclusao-dados",
+  "/consulta",
 ];
 
 export const PUBLIC_ROUTE_PREFIXES = ["/areas-de-atuacao/", "/blog/"];
 
 export const AUTH_ROUTES = [
   "/login",
-  "/portal/acesso",
   "/recuperar-senha",
   "/redefinir-senha",
 ];
