@@ -144,7 +144,8 @@ export function AppSidebar({ user }: AppSidebarProps) {
 
       <aside
         className={cn(
-          "ds-sidebar fixed inset-y-0 left-0 z-40 flex w-64 flex-col transition-transform lg:static lg:translate-x-0",
+          "ds-sidebar flex h-screen w-64 flex-col",
+          "fixed inset-y-0 left-0 z-40 transition-transform lg:relative lg:z-auto",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >

@@ -37,11 +37,11 @@ export function DashboardShell({ user, children }: DashboardShellProps) {
   return (
     <NavProgressProvider>
       <div className="flex min-h-screen bg-muted/20">
-        <div className="hidden lg:block">
+        <div className="hidden shrink-0 lg:sticky lg:top-0 lg:block lg:h-screen">
           <AppSidebar user={user} />
         </div>
 
-        <div className="flex flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col">
           <DashboardHeader userName={user.name} userRole={user.role} />
           <main className="flex-1 p-4 lg:p-8">{children}</main>
         </div>
