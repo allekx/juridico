@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import {
   Users,
@@ -34,6 +35,7 @@ import {
   CASE_PRIORITY_LABELS,
   CASE_PRIORITY_VARIANT,
 } from "@/constants/crm";
+import { CrmDashboardSkeleton } from "@/components/modules/crm/crm-dashboard-skeleton";
 
 export const metadata: Metadata = {
   title: "CRM — Visão Geral",
@@ -47,7 +49,7 @@ function formatDate(date: Date) {
   }).format(date);
 }
 
-export default async function CrmDashboardPage() {
+async function CrmDashboardContent() {
   const user = await withPermission("crm:read");
 
   const [stats, recentLeads, recentCases] = await Promise.all([
@@ -230,5 +232,13 @@ export default async function CrmDashboardPage() {
         </Button>
       </div>
     </div>
+  );
+}
+
+export default function CrmDashboardPage() {
+  return (
+    <Suspense fallback={<CrmDashboardSkeleton />}>
+      <CrmDashboardContent />
+    </Suspense>
   );
 }

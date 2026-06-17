@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -11,11 +13,15 @@ import {
   Settings,
   Newspaper,
   Scale,
+  Menu,
+  X,
 } from "lucide-react";
 import { ROLE_LABELS } from "@/constants/roles";
 import { hasPermission } from "@/lib/auth/permissions";
+import { AppNavLink } from "@/components/shared/navigation/app-nav-link";
 import { LogoutButton } from "@/components/shared/auth/logout-button";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import type { AuthUser } from "@/types/auth";
 
 interface NavItem {
@@ -23,6 +29,7 @@ interface NavItem {
   label: string;
   icon: React.ReactNode;
   permission?: Parameters<typeof hasPermission>[1];
+  exact?: boolean;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -31,6 +38,7 @@ const NAV_ITEMS: NavItem[] = [
     label: "Dashboard",
     icon: <LayoutDashboard className="h-4 w-4" strokeWidth={1.5} />,
     permission: "dashboard:read",
+    exact: true,
   },
   {
     href: "/dashboard/crm",
@@ -93,38 +101,73 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ user }: AppSidebarProps) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const visibleItems = NAV_ITEMS.filter(
     (item) => !item.permission || hasPermission(user.role, item.permission)
   );
 
+  const nav = (
+    <>
+      {visibleItems.map((item) => (
+        <AppNavLink
+          key={item.href}
+          href={item.href}
+          label={item.label}
+          icon={item.icon}
+          exact={item.exact}
+          onClick={() => setMobileOpen(false)}
+        />
+      ))}
+    </>
+  );
+
   return (
-    <aside className="ds-sidebar flex h-full w-64 flex-col">
-      <div className="flex h-16 items-center gap-2.5 border-b border-sidebar-border px-6">
-        <Scale className="h-5 w-5 text-gold" strokeWidth={1.5} />
-        <span className="font-display text-lg font-semibold tracking-tight">
-          Jurídico
-        </span>
-      </div>
+    <>
+      <button
+        type="button"
+        className="fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg lg:hidden"
+        onClick={() => setMobileOpen(!mobileOpen)}
+        aria-label="Menu"
+      >
+        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
 
-      <nav className="flex-1 space-y-0.5 p-3">
-        {visibleItems.map((item) => (
-          <Link key={item.href} href={item.href} className="ds-sidebar-item">
-            {item.icon}
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      {mobileOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-label="Fechar menu"
+        />
+      )}
 
-      <div className="border-t border-sidebar-border p-4">
-        <div className="mb-3 rounded-md bg-sidebar-accent px-3 py-2.5">
-          <p className="truncate text-sm font-medium">{user.name}</p>
-          <p className="text-xs text-sidebar-foreground/60">
-            {ROLE_LABELS[user.role]}
-          </p>
+      <aside
+        className={cn(
+          "ds-sidebar fixed inset-y-0 left-0 z-40 flex w-64 flex-col transition-transform lg:static lg:translate-x-0",
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        <div className="flex h-16 items-center gap-2.5 border-b border-sidebar-border px-6">
+          <Scale className="h-5 w-5 text-gold" strokeWidth={1.5} />
+          <span className="font-display text-lg font-semibold tracking-tight">
+            Jurídico
+          </span>
         </div>
-        <Separator className="mb-3 bg-sidebar-border" />
-        <LogoutButton variant="ghost" sidebar />
-      </div>
-    </aside>
+
+        <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">{nav}</nav>
+
+        <div className="border-t border-sidebar-border p-4">
+          <div className="mb-3 rounded-md bg-sidebar-accent px-3 py-2.5">
+            <p className="truncate text-sm font-medium">{user.name}</p>
+            <p className="text-xs text-sidebar-foreground/60">
+              {ROLE_LABELS[user.role]}
+            </p>
+          </div>
+          <Separator className="mb-3 bg-sidebar-border" />
+          <LogoutButton variant="ghost" sidebar />
+        </div>
+      </aside>
+    </>
   );
 }

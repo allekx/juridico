@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { withAuth } from "@/lib/auth/guards";
 import {
   canAccessReports,
   getVisibleReportTypes,
 } from "@/lib/reports/permissions";
+import { getSessionUser } from "@/lib/auth/session";
 import { ReportsNav } from "@/components/modules/reports/reports-nav";
 import { DEFAULT_REDIRECT } from "@/constants/roles";
 
@@ -12,13 +12,13 @@ export default async function RelatoriosLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await withAuth();
+  const sessionUser = await getSessionUser();
 
-  if (!canAccessReports(user.role)) {
-    redirect(DEFAULT_REDIRECT[user.role]);
+  if (!sessionUser || !canAccessReports(sessionUser.role)) {
+    redirect(sessionUser ? DEFAULT_REDIRECT[sessionUser.role] : "/login");
   }
 
-  const visibleTypes = getVisibleReportTypes(user.role);
+  const visibleTypes = getVisibleReportTypes(sessionUser.role);
 
   return (
     <div className="space-y-6">

@@ -1,13 +1,10 @@
-import { withPermission } from "@/lib/auth/guards";
 import { FinancialNav } from "@/components/modules/financial/financial-nav";
 
-export default async function FinanceiroLayout({
+export default function FinanceiroLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  await withPermission("financeiro:read");
-
   return (
     <div className="space-y-6">
       <div>

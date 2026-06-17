@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { redirect } from "next/navigation";
 import type { UserRole } from "@prisma/client";
 import { DEFAULT_REDIRECT } from "@/constants/roles";
@@ -7,17 +8,54 @@ import { createClient } from "@/lib/supabase/server";
 import { extractRoleFromUser } from "@/lib/auth/roles";
 import type { AuthUser, SessionUser } from "@/types/auth";
 
-export async function getSession() {
+async function readAuthUserFromSession() {
   try {
     const supabase = await createClient();
     const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    return user;
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    return session?.user ?? null;
   } catch (error) {
-    console.error("[auth] getSession:", error);
+    console.error("[auth] readAuthUserFromSession:", error);
     return null;
   }
+}
+
+const getCachedDbUser = (authUserId: string, email?: string | null) =>
+  unstable_cache(
+    async () => {
+      try {
+        return await prisma.user.findFirst({
+          where: {
+            deletedAt: null,
+            isActive: true,
+            OR: [
+              { id: authUserId },
+              ...(email ? [{ email }] : []),
+            ],
+          },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+            officeId: true,
+            avatarUrl: true,
+            isActive: true,
+          },
+        });
+      } catch (error) {
+        console.error("[auth] getCachedDbUser:", error);
+        return null;
+      }
+    },
+    ["auth-db-user", authUserId, email ?? ""],
+    { revalidate: 120 }
+  )();
+
+export async function getSession() {
+  return readAuthUserFromSession();
 }
 
 export async function getSessionUser(): Promise<SessionUser | null> {
@@ -35,35 +73,10 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 }
 
 export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
-  const authUser = await getSession();
+  const authUser = await readAuthUserFromSession();
   if (!authUser?.id) return null;
 
-  try {
-    const dbUser = await prisma.user.findFirst({
-      where: {
-        deletedAt: null,
-        isActive: true,
-        OR: [
-          { id: authUser.id },
-          ...(authUser.email ? [{ email: authUser.email }] : []),
-        ],
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        role: true,
-        officeId: true,
-        avatarUrl: true,
-        isActive: true,
-      },
-    });
-
-    return dbUser;
-  } catch (error) {
-    console.error("[auth] getCurrentUser:", error);
-    return null;
-  }
+  return getCachedDbUser(authUser.id, authUser.email);
 });
 
 export async function requireAuth(): Promise<AuthUser> {

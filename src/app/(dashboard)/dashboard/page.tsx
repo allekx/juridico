@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { withAuth } from "@/lib/auth/guards";
@@ -8,6 +9,7 @@ import { PageHeader } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { DashboardKpisGrid } from "@/components/modules/dashboard/dashboard-kpis";
 import { DashboardCharts } from "@/components/modules/dashboard/dashboard-charts";
+import { DashboardPageSkeleton } from "@/components/modules/dashboard/dashboard-page-skeleton";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -20,10 +22,9 @@ function getGreeting(): string {
   return "Boa noite";
 }
 
-export default async function DashboardPage() {
+async function DashboardPageContent() {
   const user = await withAuth();
   const showRevenue = hasPermission(user.role, "financeiro:read");
-
   const { kpis, charts } = await getDashboardData(user.officeId);
 
   return (
@@ -41,8 +42,15 @@ export default async function DashboardPage() {
       </PageHeader>
 
       <DashboardKpisGrid kpis={kpis} showRevenue={showRevenue} />
-
       <DashboardCharts charts={charts} showRevenue={showRevenue} />
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardPageSkeleton />}>
+      <DashboardPageContent />
+    </Suspense>
   );
 }
