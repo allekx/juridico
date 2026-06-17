@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/ui/typography";
 import { HistoryTimeline } from "@/components/modules/crm/history-timeline";
 
 export const metadata: Metadata = {
-  title: "CRM — Histórico",
+  title: "CRM | Histórico",
 };
 
 export default async function CrmHistoricoPage() {

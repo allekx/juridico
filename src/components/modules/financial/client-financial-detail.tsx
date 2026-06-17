@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -75,7 +76,7 @@ export function ClientFinancialDetailView({
               <TableRow key={c.id}>
                 <TableCell>{c.title}</TableCell>
                 <TableCell>
-                  {c.value != null ? formatCurrency(c.value) : "—"}
+                  {c.value != null ? formatCurrency(c.value) : EMPTY_VALUE}
                 </TableCell>
                 <TableCell>
                   {c.paidInstallments}/{c.installmentsCount}
@@ -181,7 +182,7 @@ function MiniPayments({
       <TableBody>
         {rows.map((p) => (
           <TableRow key={p.id}>
-            <TableCell>{p.description ?? "—"}</TableCell>
+            <TableCell>{p.description ?? EMPTY_VALUE}</TableCell>
             <TableCell>{formatCurrency(p.amount)}</TableCell>
             <TableCell>
               <PaymentStatusBadge status={p.status} />

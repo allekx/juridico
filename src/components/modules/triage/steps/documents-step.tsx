@@ -76,7 +76,7 @@ export function DocumentsStep({
     <div className="mx-auto max-w-2xl space-y-6">
       <p className="text-center text-sm text-muted-foreground">
         Envie documentos relevantes (contratos, notificações, petições, prints).
-        PDF, JPG, PNG ou DOC — máximo 10MB por arquivo.
+        PDF, JPG, PNG ou DOC | máximo 10MB por arquivo.
       </p>
 
       <label

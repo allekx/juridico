@@ -27,8 +27,8 @@ export default async function LegalKanbanPage() {
         title="Kanban Jurídico"
         description={
           canWrite
-            ? "Fluxo dos processos jurídicos. Ao criar um caso, o cliente é cadastrado automaticamente."
-            : "Visualização do fluxo de trabalho dos processos."
+            ? "Gestão visual dos processos jurídicos. Novos casos cadastram o cliente automaticamente."
+            : "Acompanhamento visual dos processos jurídicos."
         }
       >
         {canWrite && <CreateCaseDialog teamMembers={teamMembers} />}

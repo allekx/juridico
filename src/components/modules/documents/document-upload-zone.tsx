@@ -121,7 +121,7 @@ export function DocumentUploadZone({
           {uploading ? "Enviando..." : uploadLabel}
         </span>
         <span className="mt-1 text-xs text-muted-foreground">
-          PDF, JPG, PNG ou DOC — máx. 15MB · Supabase Storage
+          PDF, JPG, PNG ou DOC | máx. 15MB · Supabase Storage
         </span>
         <input
           type="file"

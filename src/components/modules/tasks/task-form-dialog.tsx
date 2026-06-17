@@ -150,7 +150,7 @@ export function TaskFormDialog({
                 defaultValue={task?.clientId ?? ""}
                 disabled={isPending}
               >
-                <option value="">—</option>
+                <option value="">Nenhum</option>
                 {clients.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.label}
@@ -166,7 +166,7 @@ export function TaskFormDialog({
                 defaultValue={task?.caseId ?? ""}
                 disabled={isPending}
               >
-                <option value="">—</option>
+                <option value="">Nenhum</option>
                 {cases.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.label}

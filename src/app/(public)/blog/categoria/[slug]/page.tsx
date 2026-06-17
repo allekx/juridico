@@ -31,7 +31,7 @@ export async function generateMetadata({
     `Artigos e orientações sobre ${category.name} publicados pelo escritório Almeida & Associados.`;
 
   return buildMetadata({
-    title: `${category.name} — Blog Jurídico`,
+    title: `${category.name} | Blog Jurídico`,
     description,
     path: `/blog/categoria/${slug}`,
     keywords: [category.name, "blog jurídico", "advocacia"],

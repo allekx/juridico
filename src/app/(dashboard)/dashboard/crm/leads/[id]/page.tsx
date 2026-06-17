@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -76,19 +77,19 @@ export default async function LeadDetailPage({
           <CardContent className="space-y-3 text-sm">
             <div>
               <p className="text-muted-foreground">E-mail</p>
-              <p>{lead.email ?? "—"}</p>
+              <p>{lead.email ?? EMPTY_VALUE}</p>
             </div>
             <div>
               <p className="text-muted-foreground">Telefone</p>
-              <p>{lead.phone ?? "—"}</p>
+              <p>{lead.phone ?? EMPTY_VALUE}</p>
             </div>
             <div>
               <p className="text-muted-foreground">Área de interesse</p>
-              <p>{lead.interestArea ?? "—"}</p>
+              <p>{lead.interestArea ?? EMPTY_VALUE}</p>
             </div>
             <div>
               <p className="text-muted-foreground">Responsável</p>
-              <p>{lead.assignedToName ?? "—"}</p>
+              <p>{lead.assignedToName ?? EMPTY_VALUE}</p>
             </div>
             {canWrite && (
               <div className="space-y-3 border-t border-border/60 pt-3">

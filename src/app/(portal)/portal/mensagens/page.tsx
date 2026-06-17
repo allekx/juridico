@@ -5,7 +5,7 @@ import { PortalMessages } from "@/components/modules/portal/portal-messages";
 import { PageHeader } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
-  title: "Mensagens — Portal do Cliente",
+  title: "Mensagens | Portal do Cliente",
 };
 
 export default async function PortalMensagensPage() {

@@ -11,7 +11,7 @@ import { ReportView } from "@/components/modules/reports/report-view";
 import { DEFAULT_REDIRECT } from "@/constants/roles";
 
 export const metadata: Metadata = {
-  title: "Relatório — Clientes",
+  title: "Relatório | Clientes",
 };
 
 export default async function RelatorioClientesPage({

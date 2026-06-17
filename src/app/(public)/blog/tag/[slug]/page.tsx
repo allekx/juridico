@@ -27,7 +27,7 @@ export async function generateMetadata({
   if (!tag) return { title: "Tag não encontrada" };
 
   return buildMetadata({
-    title: `#${tag.name} — Blog Jurídico`,
+    title: `#${tag.name} | Blog Jurídico`,
     description: `Artigos jurídicos marcados com ${tag.name}. Conteúdo especializado do escritório Almeida & Associados.`,
     path: `/blog/tag/${slug}`,
     keywords: [tag.name, "blog jurídico", "advocacia"],

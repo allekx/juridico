@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { LeadsKanban } from "@/components/modules/crm/kanban-board";
 
 export const metadata: Metadata = {
-  title: "CRM — Kanban de Leads",
+  title: "CRM | Kanban de Leads",
 };
 
 export default async function CrmKanbanPage() {
@@ -22,7 +22,7 @@ export default async function CrmKanbanPage() {
     <div className="space-y-6">
       <PageHeader
         title="Kanban de Leads"
-        description="Funil comercial de prospecção (Novo → Contatado → Qualificado…). Os processos jurídicos ficam no Kanban Jurídico."
+        description="Funil comercial para acompanhamento de prospecção. Casos jurídicos são tratados no Kanban Jurídico."
       />
 
       <Card variant="elevated">

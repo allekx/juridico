@@ -140,7 +140,7 @@ export function PaymentFormDialog({
             <div className="ds-input-group">
               <Label htmlFor="method">Forma</Label>
               <Select id="method" name="method" disabled={isPending}>
-                <option value="">—</option>
+                <option value="">Nenhum</option>
                 {Object.entries(PAYMENT_METHOD_LABELS).map(([value, label]) => (
                   <option key={value} value={value}>
                     {label}

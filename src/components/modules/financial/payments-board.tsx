@@ -1,4 +1,5 @@
 "use client";
+import { EMPTY_VALUE } from "@/constants/copy";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -95,7 +96,7 @@ export function PaymentsBoard({
                     </Link>
                   </TableCell>
                   <TableCell>
-                    {p.description ?? p.invoiceNumber ?? "—"}
+                    {p.description ?? p.invoiceNumber ?? EMPTY_VALUE}
                     {p.installment && (
                       <span className="ml-1 text-xs text-muted-foreground">
                         (parc. {p.installment.number})
@@ -105,7 +106,7 @@ export function PaymentsBoard({
                   <TableCell>{formatDate(p.dueDate)}</TableCell>
                   <TableCell>{formatCurrency(p.amount)}</TableCell>
                   <TableCell>
-                    {p.method ? PAYMENT_METHOD_LABELS[p.method] : "—"}
+                    {p.method ? PAYMENT_METHOD_LABELS[p.method] : EMPTY_VALUE}
                   </TableCell>
                   <TableCell>
                     <PaymentStatusBadge status={p.status} />

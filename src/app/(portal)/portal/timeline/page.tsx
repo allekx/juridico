@@ -6,7 +6,7 @@ import { PortalTimeline } from "@/components/modules/portal/portal-timeline";
 import { PageHeader } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
-  title: "Timeline — Portal do Cliente",
+  title: "Timeline | Portal do Cliente",
 };
 
 export default async function PortalTimelinePage() {

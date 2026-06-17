@@ -447,7 +447,7 @@ export async function getCrmHistory(
     items.push({
       id: `ch-${h.id}`,
       type: "case_status",
-      title: `Status alterado — ${h.case.title}`,
+      title: `Status alterado | ${h.case.title}`,
       description: h.notes ?? `Novo status: ${h.status.name}`,
       actorName: h.changedBy.name,
       createdAt: h.createdAt,
@@ -462,7 +462,7 @@ export async function getCrmHistory(
     items.push({
       id: `lead-${lead.id}`,
       type: "lead_created",
-      title: `Novo lead — ${lead.name}`,
+      title: `Novo lead | ${lead.name}`,
       description: lead.interestArea ?? lead.notes?.slice(0, 120) ?? null,
       actorName: lead.assignedTo?.name ?? "Sistema",
       createdAt: lead.createdAt,
@@ -474,7 +474,7 @@ export async function getCrmHistory(
     items.push({
       id: `case-${c.id}`,
       type: "case_opened",
-      title: `Caso aberto — ${c.title}`,
+      title: `Caso aberto | ${c.title}`,
       description: c.caseNumber
         ? `Processo ${c.caseNumber} · ${c.status.name}`
         : c.status.name,

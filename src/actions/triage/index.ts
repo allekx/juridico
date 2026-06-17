@@ -22,7 +22,7 @@ function formatAnswersSummary(
 ): string {
   const area = getAreaTitle(areaSlug);
   const lines = answers.map((a) => `• ${a.questionLabel}: ${a.answer}`);
-  return `Triagem jurídica — ${area}\n\n${lines.join("\n")}`;
+  return `Triagem jurídica | ${area}\n\n${lines.join("\n")}`;
 }
 
 export async function startTriageAction(

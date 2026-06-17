@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   const isAuthenticated = !!user;
   const role = user ? extractRoleFromUser(user) : null;
 
-  // Rotas de autenticação — redireciona se já logado
+  // Rotas de autenticação | redireciona se já logado
   if (isAuthRoute(pathname)) {
     if (isAuthenticated && role) {
       const redirectUrl = request.nextUrl.clone();
@@ -26,12 +26,12 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // Rotas públicas — acesso livre
+  // Rotas públicas | acesso livre
   if (isPublicRoute(pathname)) {
     return supabaseResponse;
   }
 
-  // Rotas protegidas — exige autenticação
+  // Rotas protegidas | exige autenticação
   if (isProtectedRoute(pathname)) {
     if (!isAuthenticated) {
       const redirectUrl = request.nextUrl.clone();
@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
     }
 
     if (!role) {
-      // Sessão válida sem role no JWT — servidor valida pelo banco
+      // Sessão válida sem role no JWT | servidor valida pelo banco
       return supabaseResponse;
     }
 

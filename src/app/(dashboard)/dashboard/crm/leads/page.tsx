@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { withPermission } from "@/lib/auth/guards";
@@ -21,7 +22,7 @@ import { CreateLeadDialog } from "@/components/modules/crm/create-lead-dialog";
 import { LEAD_SOURCE_LABELS } from "@/constants/crm";
 
 export const metadata: Metadata = {
-  title: "CRM — Leads",
+  title: "CRM | Leads",
 };
 
 function formatDate(date: Date) {
@@ -114,10 +115,10 @@ export default async function CrmLeadsPage({
                     </Badge>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
-                    {lead.interestArea ?? "—"}
+                    {lead.interestArea ?? EMPTY_VALUE}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {lead.assignedToName ?? "—"}
+                    {lead.assignedToName ?? EMPTY_VALUE}
                   </TableCell>
                   <TableCell>
                     <LeadStatusSelect

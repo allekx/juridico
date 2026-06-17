@@ -62,7 +62,7 @@ export function GenerateInstallmentsDialog({
               <option value="">Selecione</option>
               {eligible.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.title} — {c.client.name} ({formatCurrency(c.value!)})
+                  {c.title} | {c.client.name} ({formatCurrency(c.value!)})
                 </option>
               ))}
             </Select>

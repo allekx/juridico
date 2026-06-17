@@ -1,5 +1,5 @@
 /**
- * Design System — Sistema Jurídico
+ * Design System | Sistema Jurídico
  * Tokens centralizados para uso em JS/TS (gráficos, PDFs, temas dinâmicos)
  */
 

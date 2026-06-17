@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
-  title: "Início — Portal do Cliente",
+  title: "Início | Portal do Cliente",
 };
 
 export default async function PortalPage() {

@@ -8,7 +8,7 @@ export interface ProcessTimelineStepDefinition {
   description: string;
 }
 
-/** Etapas fixas exibidas ao cliente — ordem de acompanhamento processual. */
+/** Etapas fixas exibidas ao cliente | ordem de acompanhamento processual. */
 export const PROCESS_TIMELINE_STEPS: ProcessTimelineStepDefinition[] = [
   {
     id: "cadastro-recebido",

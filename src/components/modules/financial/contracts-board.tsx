@@ -1,5 +1,6 @@
 "use client";
 
+import { EMPTY_VALUE } from "@/constants/copy";
 import { useState } from "react";
 import Link from "next/link";
 import { Plus, Pencil } from "lucide-react";
@@ -97,7 +98,7 @@ export function ContractsBoard({
                   </TableCell>
                   <TableCell>{CONTRACT_TYPE_LABELS[c.type]}</TableCell>
                   <TableCell>
-                    {c.value != null ? formatCurrency(c.value) : "—"}
+                    {c.value != null ? formatCurrency(c.value) : EMPTY_VALUE}
                   </TableCell>
                   <TableCell>
                     {c.paidInstallments}/{c.installmentsCount}

@@ -189,7 +189,7 @@ export function EventFormDialog({
                 defaultValue={event?.clientId ?? ""}
                 disabled={isPending}
               >
-                <option value="">—</option>
+                <option value="">Nenhum</option>
                 {clients.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.label}
@@ -205,7 +205,7 @@ export function EventFormDialog({
                 defaultValue={event?.caseId ?? ""}
                 disabled={isPending}
               >
-                <option value="">—</option>
+                <option value="">Nenhum</option>
                 {cases.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.label}

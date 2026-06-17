@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import { PRACTICE_AREAS_DATA } from "@/constants/practice-areas";
 import { TRIAGE_QUESTIONS } from "@/constants/triage-questions";
 import type { PracticeAreaSlug } from "@/constants/practice-areas";
@@ -35,9 +36,9 @@ export function buildTriageReportText(input: BuildTriageReportInput): string {
     "",
     "CONTATO",
     "-------",
-    `Nome: ${input.name ?? "—"}`,
-    `E-mail: ${input.email ?? "—"}`,
-    `Telefone: ${input.phone ?? "—"}`,
+    `Nome: ${input.name ?? EMPTY_VALUE}`,
+    `E-mail: ${input.email ?? EMPTY_VALUE}`,
+    `Telefone: ${input.phone ?? EMPTY_VALUE}`,
   ];
 
   if (input.cpfCnpj) lines.push(`CPF/CNPJ: ${input.cpfCnpj}`);

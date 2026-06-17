@@ -119,7 +119,7 @@ export const PRACTICE_AREAS_DATA: Record<PracticeAreaSlug, PracticeAreaDetail> =
     cta: {
       title: "Precisa de orientação trabalhista?",
       description:
-        "Agende uma consulta e receba análise personalizada do seu caso — seja como empregador ou trabalhador.",
+        "Agende uma consulta e receba análise personalizada do seu caso, para empregador ou trabalhador.",
     },
   }),
 
@@ -212,7 +212,7 @@ export const PRACTICE_AREAS_DATA: Record<PracticeAreaSlug, PracticeAreaDetail> =
       overline: "Área de Atuação",
       title: "Direito de Família e Sucessões",
       subtitle:
-        "Conduzimos questões familiares com sensibilidade, discrição e firmeza técnica — buscando soluções justas e duradouras.",
+        "Conduzimos questões familiares com sensibilidade, discrição e firmeza técnica, buscando soluções justas e duradouras.",
     },
     description: {
       title: "Acompanhamento humanizado em momentos delicados",
@@ -342,7 +342,7 @@ export const PRACTICE_AREAS_DATA: Record<PracticeAreaSlug, PracticeAreaDetail> =
       {
         question: "Posso cancelar um contrato e pedir devolução do dinheiro?",
         answer:
-          "Em muitos casos, sim — especialmente em compras online (arrependimento em 7 dias) ou quando há descumprimento contratual pelo fornecedor.",
+          "Em muitos casos, sim, especialmente em compras online (arrependimento em 7 dias) ou quando há descumprimento contratual pelo fornecedor.",
       },
       {
         question: "Vale a pena ir ao Juizado Especial?",
@@ -368,7 +368,7 @@ export const PRACTICE_AREAS_DATA: Record<PracticeAreaSlug, PracticeAreaDetail> =
       overline: "Área de Atuação",
       title: "Direito Empresarial",
       subtitle:
-        "Assessoria jurídica estratégica para empresas — da constituição à reestruturação, com foco em segurança e crescimento sustentável.",
+        "Assessoria jurídica estratégica para empresas, da constituição à reestruturação, com foco em segurança e crescimento sustentável.",
     },
     description: {
       title: "Parceiro jurídico do seu negócio",
@@ -606,7 +606,7 @@ export const PRACTICE_AREAS_DATA: Record<PracticeAreaSlug, PracticeAreaDetail> =
       overline: "Área de Atuação",
       title: "Direito Criminal",
       subtitle:
-        "Defesa técnica e estratégica em todas as fases — do inquérito policial ao Supremo Tribunal Federal.",
+        "Defesa técnica e estratégica em todas as fases, do inquérito policial ao Supremo Tribunal Federal.",
     },
     description: {
       title: "Defesa criminal com rigor e dedicação",

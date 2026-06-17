@@ -238,7 +238,7 @@ export async function getPortalTimeline(
     items.push({
       id: `c-${c.id}`,
       title: c.title,
-      description: `Processo aberto — ${c.status.name}`,
+      description: `Processo aberto | ${c.status.name}`,
       date: c.createdAt,
       type: "case_opened",
     });

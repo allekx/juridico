@@ -1,5 +1,6 @@
 "use client";
 
+import { EMPTY_VALUE } from "@/constants/copy";
 import Link from "next/link";
 import {
   Table,
@@ -88,7 +89,7 @@ export function ClientsFinancialBoard({
                     {c.installmentsOverdue > 0 ? (
                       <Badge variant="destructive">{c.installmentsOverdue}</Badge>
                     ) : (
-                      "—"
+                      EMPTY_VALUE
                     )}
                   </TableCell>
                 </TableRow>

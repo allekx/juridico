@@ -14,7 +14,7 @@ import { PageHeader } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "LGPD — Administração",
+  title: "LGPD | Administração",
 };
 
 export default async function AdminLgpdPage() {

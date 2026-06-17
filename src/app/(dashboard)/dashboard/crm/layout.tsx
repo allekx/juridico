@@ -14,7 +14,7 @@ export default function CrmLayout({
             CRM Jurídico
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Gestão de leads, clientes e processos
+            Gestão comercial de leads, clientes e casos
           </p>
         </div>
         <GlobalSearch />

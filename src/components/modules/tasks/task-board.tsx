@@ -1,4 +1,5 @@
 "use client";
+import { EMPTY_VALUE } from "@/constants/copy";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -37,7 +38,7 @@ interface TaskBoardProps {
 }
 
 function formatDate(iso: string | null) {
-  if (!iso) return "—";
+  if (!iso) return EMPTY_VALUE;
   return new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "short",
@@ -174,14 +175,14 @@ export function TaskBoard({
                         {task.clientName}
                       </Link>
                     ) : (
-                      "—"
+                      EMPTY_VALUE
                     )}
                   </TableCell>
                   <TableCell className="max-w-[160px] text-sm">
                     {task.caseTitle ? (
                       <span className="line-clamp-2">{task.caseTitle}</span>
                     ) : (
-                      "—"
+                      EMPTY_VALUE
                     )}
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">

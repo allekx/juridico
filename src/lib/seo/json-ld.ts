@@ -130,7 +130,7 @@ export function buildBlogSchema(posts: { title: string; slug: string }[]) {
     "@context": "https://schema.org",
     "@type": "Blog",
     "@id": absoluteUrl("/blog#blog"),
-    name: `Blog Jurídico — ${OFFICE_INFO.name}`,
+    name: `Blog Jurídico | ${OFFICE_INFO.name}`,
     description:
       "Artigos, análises e orientações jurídicas sobre direito trabalhista, empresarial, família e mais.",
     url: absoluteUrl("/blog"),

@@ -5,7 +5,7 @@ import { PortalDocuments } from "@/components/modules/portal/portal-documents";
 import { PageHeader } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
-  title: "Documentos — Portal do Cliente",
+  title: "Documentos | Portal do Cliente",
 };
 
 export default async function PortalDocumentosPage() {

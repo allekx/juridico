@@ -82,8 +82,8 @@ export function CreateCaseDialog({
           <DialogHeader>
             <DialogTitle>Novo caso</DialogTitle>
             <DialogDescription>
-              Cria o cliente (se ainda não existir) e adiciona o caso na coluna
-              Novo do Kanban Jurídico.
+              Cadastra o cliente, quando necessário, e inclui o caso na coluna Novo
+              do Kanban Jurídico.
             </DialogDescription>
           </DialogHeader>
 

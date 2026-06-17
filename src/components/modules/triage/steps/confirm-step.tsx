@@ -58,7 +58,7 @@ export function ConfirmStep({
               Contato
             </p>
             <p className="text-sm">
-              {contact.name} — {contact.email} — {contact.phone}
+              {contact.name} | {contact.email} | {contact.phone}
             </p>
           </div>
 

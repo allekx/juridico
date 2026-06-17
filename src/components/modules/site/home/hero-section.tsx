@@ -61,7 +61,7 @@ export function HeroSection() {
                 </div>
 
                 <blockquote className="font-display text-2xl font-medium leading-snug text-primary">
-                  &ldquo;A justiça atrasa, mas não falha — e nós garantimos que
+                  &ldquo;A justiça atrasa, mas não falha. Garantimos que
                   você chegue preparado.&rdquo;
                 </blockquote>
 

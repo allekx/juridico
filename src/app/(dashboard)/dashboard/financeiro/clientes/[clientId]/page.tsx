@@ -5,7 +5,7 @@ import { getClientFinancialDetail } from "@/lib/financial/queries";
 import { ClientFinancialDetailView } from "@/components/modules/financial/client-financial-detail";
 
 export const metadata: Metadata = {
-  title: "Cliente — Financeiro",
+  title: "Cliente | Financeiro",
 };
 
 export default async function ClienteFinanceiroPage({

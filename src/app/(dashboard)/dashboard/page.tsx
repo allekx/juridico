@@ -31,7 +31,7 @@ async function DashboardPageContent() {
     <div className="space-y-8">
       <PageHeader
         title={`${getGreeting()}, ${user.name.split(" ")[0]}`}
-        description="Visão geral do escritório — indicadores e tendências em tempo real."
+        description="Indicadores e tendências do escritório em tempo real."
       >
         <Button asChild size="sm">
           <Link href="/dashboard/crm">

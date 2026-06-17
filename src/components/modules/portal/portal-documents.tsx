@@ -116,7 +116,7 @@ export function PortalDocuments({ documents }: PortalDocumentsProps) {
           {uploading ? "Enviando..." : "Enviar documento"}
         </span>
         <span className="mt-1 text-xs text-muted-foreground">
-          PDF, JPG, PNG ou DOC — máx. 15MB
+          PDF, JPG, PNG ou DOC | máx. 15MB
         </span>
         <input
           type="file"

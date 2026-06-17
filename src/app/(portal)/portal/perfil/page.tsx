@@ -5,7 +5,7 @@ import { ProfileView } from "@/components/modules/portal/profile-view";
 import { PageHeader } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
-  title: "Meus Dados — Portal do Cliente",
+  title: "Meus Dados | Portal do Cliente",
 };
 
 export default async function PortalPerfilPage() {

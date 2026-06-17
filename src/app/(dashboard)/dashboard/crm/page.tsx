@@ -38,7 +38,7 @@ import {
 import { CrmDashboardSkeleton } from "@/components/modules/crm/crm-dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "CRM — Visão Geral",
+  title: "CRM | Visão Geral",
 };
 
 function formatDate(date: Date) {

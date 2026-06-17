@@ -26,7 +26,7 @@ export default async function NotificacoesPage({
     <div className="space-y-6">
       <PageHeader
         title="Notificações"
-        description="Histórico de alertas do escritório — leads, documentos, prazos e alterações de status"
+        description="Alertas de leads, documentos, prazos e alterações de status."
       />
 
       <NotificationsPanel

@@ -113,7 +113,7 @@ export async function notifyNewLead(
     type: "INFO",
     event: "NEW_LEAD",
     title: "Novo lead",
-    body: `${lead.name} — ${sourceLabel}${lead.interestArea ? ` · ${lead.interestArea}` : ""}`,
+    body: `${lead.name} | ${sourceLabel}${lead.interestArea ? ` · ${lead.interestArea}` : ""}`,
     link: `/dashboard/crm/leads/${lead.id}`,
     metadata: { leadId: lead.id, source: lead.source },
   });
@@ -256,7 +256,7 @@ export async function notifyDeadlineNear(
       userId,
       type: "DEADLINE",
       title: `${data.typeLabel}: ${data.title}`,
-      body: `Compromisso em ${data.startFormatted}${data.location ? ` — ${data.location}` : ""}`,
+      body: `Compromisso em ${data.startFormatted}${data.location ? ` | ${data.location}` : ""}`,
       link: "/dashboard/agenda",
       metadata: {
         event: "DEADLINE_NEAR",

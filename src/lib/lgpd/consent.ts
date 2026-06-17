@@ -46,7 +46,7 @@ export async function recordConsent(input: RecordConsentInput) {
         documentHash = doc.contentHash;
       }
     } catch {
-      // Documento ainda não publicado — registra consentimento sem vínculo
+      // Documento ainda não publicado | registra consentimento sem vínculo
     }
   }
 

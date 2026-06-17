@@ -5,7 +5,7 @@ import { CaseProgressCard } from "@/components/modules/portal/case-progress-card
 import { PageHeader } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
-  title: "Andamento — Portal do Cliente",
+  title: "Andamento | Portal do Cliente",
 };
 
 export default async function PortalProcessosPage() {
@@ -16,7 +16,7 @@ export default async function PortalProcessosPage() {
     <div className="space-y-6">
       <PageHeader
         title="Andamento dos processos"
-        description="Acompanhe cada etapa do seu caso — atualizado automaticamente conforme o status."
+        description="Acompanhe cada etapa do seu caso com atualização automática conforme o status."
       />
       {cases.length === 0 ? (
         <p className="py-10 text-center text-sm text-muted-foreground">

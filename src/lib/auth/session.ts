@@ -104,6 +104,6 @@ export async function redirectIfAuthenticated() {
       redirect(DEFAULT_REDIRECT[user.role]);
     }
   } catch {
-    // Banco indisponível — mantém na tela de login
+    // Banco indisponível | mantém na tela de login
   }
 }

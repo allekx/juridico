@@ -195,7 +195,7 @@ export function PostForm({ categories, tags, post }: PostFormProps) {
           <FormField
             label="Meta descrição"
             htmlFor="metaDescription"
-            hint="Máx. 160 caracteres — aparece no Google"
+            hint="Máx. 160 caracteres | aparece no Google"
           >
             <Textarea
               id="metaDescription"

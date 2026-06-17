@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/ui/typography";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildMetadata({
-  title: "Exclusão de Dados — LGPD",
+  title: "Exclusão de Dados | LGPD",
   description:
     "Solicite a exclusão ou anonimização dos seus dados pessoais conforme a Lei Geral de Proteção de Dados (LGPD).",
   path: "/lgpd/exclusao-dados",

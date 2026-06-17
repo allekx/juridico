@@ -38,7 +38,7 @@ const ALLOWED_TYPES = [
 
 
 
-/** Upload legado para contratos — mantém path `clients/{id}/{folder}/`. */
+/** Upload legado para contratos | mantém path `clients/{id}/{folder}/`. */
 
 export async function uploadClientFile(
 

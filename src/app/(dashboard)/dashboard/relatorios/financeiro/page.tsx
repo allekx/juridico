@@ -9,7 +9,7 @@ import { formatCurrency } from "@/lib/financial/format";
 import { DEFAULT_REDIRECT } from "@/constants/roles";
 
 export const metadata: Metadata = {
-  title: "Relatório — Financeiro",
+  title: "Relatório | Financeiro",
 };
 
 export default async function RelatorioFinanceiroPage({

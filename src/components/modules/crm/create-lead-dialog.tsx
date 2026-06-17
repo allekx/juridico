@@ -65,7 +65,7 @@ export function CreateLeadDialog({ teamMembers }: CreateLeadDialogProps) {
           <DialogHeader>
             <DialogTitle>Novo lead</DialogTitle>
             <DialogDescription>
-              Cadastre um novo lead no funil comercial.
+              Inclua um novo lead no funil comercial do escritório.
             </DialogDescription>
           </DialogHeader>
 

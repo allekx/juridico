@@ -111,7 +111,7 @@ export function LegalCalendar({
     if (view === "day") return formatFullDate(anchor);
     if (view === "week") {
       const days = getWeekDays(anchor);
-      return `${formatDayHeader(days[0])} — ${formatDayHeader(days[6])}`;
+      return `${formatDayHeader(days[0])} | ${formatDayHeader(days[6])}`;
     }
     return formatMonthYear(anchor);
   }, [view, anchor]);

@@ -1,4 +1,5 @@
 "use client";
+import { EMPTY_VALUE } from "@/constants/copy";
 
 import { useActionState } from "react";
 import { Loader2 } from "lucide-react";
@@ -217,8 +218,8 @@ export function AdminLgpdPanel({
                     <TableCell>
                       {CONSENT_SOURCE_LABELS[c.source] ?? c.source}
                     </TableCell>
-                    <TableCell>{c.documentVersion ?? "—"}</TableCell>
-                    <TableCell className="text-xs">{c.ipAddress ?? "—"}</TableCell>
+                    <TableCell>{c.documentVersion ?? EMPTY_VALUE}</TableCell>
+                    <TableCell className="text-xs">{c.ipAddress ?? EMPTY_VALUE}</TableCell>
                   </TableRow>
                 ))
               )}

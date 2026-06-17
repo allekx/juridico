@@ -12,7 +12,7 @@ import { LEAD_STATUS_LABELS } from "@/constants/crm";
 import { DEFAULT_REDIRECT } from "@/constants/roles";
 
 export const metadata: Metadata = {
-  title: "Relatório — Conversão de Leads",
+  title: "Relatório | Conversão de Leads",
 };
 
 export default async function RelatorioLeadsPage({

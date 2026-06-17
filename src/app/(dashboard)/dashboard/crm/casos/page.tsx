@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import type { Metadata } from "next";
 import { withPermission } from "@/lib/auth/guards";
 import { hasPermission } from "@/lib/auth/permissions";
@@ -24,7 +25,7 @@ import { CreateCaseDialog } from "@/components/modules/crm/create-case-dialog";
 import { CASE_PRIORITY_LABELS, CASE_PRIORITY_VARIANT } from "@/constants/crm";
 
 export const metadata: Metadata = {
-  title: "CRM — Casos",
+  title: "CRM | Casos",
 };
 
 function formatDate(date: Date) {
@@ -101,7 +102,7 @@ export default async function CrmCasosPage({
                   </TableCell>
                   <TableCell>
                     <Legal className="text-muted-foreground">
-                      {c.caseNumber ?? "—"}
+                      {c.caseNumber ?? EMPTY_VALUE}
                     </Legal>
                   </TableCell>
                   <TableCell className="text-sm">{c.clientName}</TableCell>

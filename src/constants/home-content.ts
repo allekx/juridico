@@ -13,7 +13,7 @@ export const OFFICE_INFO = {
   phone: "(11) 3456-7890",
   whatsapp: "551134567890",
   email: "contato@almeidaassociados.com.br",
-  address: "Av. Paulista, 1000 — Bela Vista, São Paulo — SP",
+  address: "Av. Paulista, 1000, Bela Vista, São Paulo, SP",
   hours: "Segunda a sexta, 9h às 18h",
 } as const;
 
@@ -21,7 +21,7 @@ export const HERO_CONTENT = {
   overline: "Escritório de Advocacia Premium",
   title: "Defendemos seus interesses com excelência e estratégia",
   subtitle:
-    "Há mais de 25 anos, combinamos tradição jurídica e visão moderna para entregar resultados concretos em casos complexos — com atendimento personalizado e total transparência.",
+    "Há mais de 25 anos, unimos tradição jurídica e visão moderna para entregar resultados em casos complexos, com atendimento personalizado e transparência.",
   ctaPrimary: "Agendar consulta gratuita",
   ctaSecondary: "Conheça nossas áreas",
   trustBadges: [
@@ -116,7 +116,7 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     name: "Marcos Oliveira",
-    role: "CEO — Tech Solutions Ltda",
+    role: "CEO, Tech Solutions Ltda",
     content:
       "O escritório conduziu nossa reestruturação societária com precisão técnica e prazos impecáveis. Recomendo sem hesitar para qualquer empresa que busca segurança jurídica.",
     rating: 5,
@@ -151,7 +151,7 @@ export const FAQ_ITEMS = [
   {
     question: "A primeira consulta é realmente gratuita?",
     answer:
-      "Sim. A primeira consulta tem duração de até 40 minutos e serve para entendermos seu caso, avaliarmos a viabilidade jurídica e apresentarmos as possíveis estratégias — sem qualquer compromisso.",
+      "Sim. A primeira consulta tem duração de até 40 minutos e serve para entendermos seu caso, avaliarmos a viabilidade jurídica e apresentarmos as possíveis estratégias, sem compromisso.",
   },
   {
     question: "Como funciona o acompanhamento do meu processo?",

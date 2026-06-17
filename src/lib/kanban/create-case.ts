@@ -258,7 +258,7 @@ export async function createLegalCaseFromTriage(
     cpfCnpj: input.cpfCnpj,
     city: input.city,
     state: input.state,
-    title: `Triagem — ${input.name}`,
+    title: `Triagem | ${input.name}`,
     caseType: input.areaTitle,
     description: input.summary,
     lawyerUserId: input.lawyerUserId,

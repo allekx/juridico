@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Plus, Tags, FolderOpen, ExternalLink } from "lucide-react";
@@ -17,7 +18,7 @@ import {
 import { DeletePostButton } from "@/components/modules/blog/admin/delete-post-button";
 
 export const metadata: Metadata = {
-  title: "Blog — Administração",
+  title: "Blog | Administração",
 };
 
 const STATUS_LABELS = {
@@ -79,7 +80,7 @@ export default async function AdminBlogPage() {
               return (
                 <TableRow key={post.id}>
                   <TableCell className="font-medium">{post.title}</TableCell>
-                  <TableCell>{post.category?.name ?? "—"}</TableCell>
+                  <TableCell>{post.category?.name ?? EMPTY_VALUE}</TableCell>
                   <TableCell>
                     <Badge variant={status.variant}>{status.label}</Badge>
                   </TableCell>

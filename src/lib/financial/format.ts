@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 export function formatCurrency(value: number): string {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -8,7 +9,7 @@ export function formatCurrency(value: number): string {
 }
 
 export function formatDate(iso: string | Date | null): string {
-  if (!iso) return "—";
+  if (!iso) return EMPTY_VALUE;
   const date = typeof iso === "string" ? new Date(iso) : iso;
   return new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",

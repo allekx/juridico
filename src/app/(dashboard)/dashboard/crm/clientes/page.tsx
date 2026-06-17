@@ -1,3 +1,4 @@
+import { EMPTY_VALUE } from "@/constants/copy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FolderOpen, Wallet } from "lucide-react";
@@ -20,7 +21,7 @@ import { Legal } from "@/components/ui/typography";
 import { AdvancedFilters } from "@/components/modules/crm/advanced-filters";
 
 export const metadata: Metadata = {
-  title: "CRM — Clientes",
+  title: "CRM | Clientes",
 };
 
 function formatDate(date: Date) {
@@ -81,7 +82,7 @@ export default async function CrmClientesPage({
                 <TableRow key={client.id}>
                   <TableCell className="font-medium">{client.name}</TableCell>
                   <TableCell>
-                    <Legal>{client.cpfCnpj ?? "—"}</Legal>
+                    <Legal>{client.cpfCnpj ?? EMPTY_VALUE}</Legal>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline">
@@ -101,10 +102,10 @@ export default async function CrmClientesPage({
                   <TableCell className="text-sm text-muted-foreground">
                     {client.city && client.state
                       ? `${client.city}/${client.state}`
-                      : "—"}
+                      : EMPTY_VALUE}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {client.lawyerName ?? "—"}
+                    {client.lawyerName ?? EMPTY_VALUE}
                   </TableCell>
                   <TableCell className="text-right font-mono text-sm">
                     {client.casesCount}
